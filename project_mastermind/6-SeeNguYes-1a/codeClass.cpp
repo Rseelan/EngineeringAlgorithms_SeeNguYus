@@ -116,7 +116,7 @@ void code::userInput()
         cin >> temp;
 
 		//checking if temp is within the acceptable range:
-		while (temp > (m-1) || temp < 0)
+		while (temp > (m - 1) || temp < 0)
 		{
 			cout << "Your input was not valid, dude! \n";
 			cout << "Please input a number between 0 and " << m - 1 << ":";
