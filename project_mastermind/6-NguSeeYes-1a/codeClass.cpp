@@ -232,7 +232,7 @@ int main()
 		//shorten them.
 		cout<<"Number of correct numbers in the correct place: ";
 		cout<<codemaker.checkCorrect()<<"\n";
-		cout<<"Number of correct numbers in the incorrect place: "
+		cout<<"Number of correct numbers in the incorrect place: ";
 		cout<<codemaker.checkIncorrect()<<"\n";
 			
 		//These lines are for debugging:
