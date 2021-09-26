@@ -1,5 +1,5 @@
 /******************************************************************************
- * Project 1a		   Group members:				      *
+ * Project 1b		   Group members:				      *
  * 			   Rohan Seelan - seelan.r@northeastern.edu	      *
  * 			   Andrew Nguyen - nguyen.andrew@northeastern.edu     *
  * 			   Arbid Ysuuf - yusuf.ar@northeastern.edu            *
@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <vector>
 #include "codeClass.h"
+#include "response.h"
+#include "mastermind.h"
 
 using namespace std;
 
