@@ -13,24 +13,27 @@ class mastermind
 {
 	public:
 		//constructors:
-		mastermind();			//default, no input
+		mastermind();				//default, no input
 		mastermind(int length, int range);	//manually set n and m
 
 		//member functions:
-		code humanGuess();		//return code object with player's guess
+		code humanGuess();	//return code object with player's guess
 
-		response getResponse(code guess); //return response object based on player guess
+		response getResponse(code guess);	//return response object based on player guess
 
-		bool isSolved(response checkGuess); //checks if the secret code has been found
+		bool isSolved(response guessResponse);	//checks if the secret code has been found
 	
-		void printSecretCode();		//prints the secret code to console
-		void playGame();		//starts the game
+		void printSecretCode();	//prints the secret code to console
+		void playGame();	//starts the game
 
 	private:
 		int n;			//length of the secret code
 		int m;			//range of numbers of secret code
 
 		code secretCode;	//stores the secret code
+		code userGuess;		//stores user's guesses
+
+		response answer;	//stores a response for a correct guess
 };
 
 /******************************************************************************
@@ -46,6 +49,9 @@ mastermind::mastermind()
 	m = 10;
 
 	secretCode.initializeCode(n, m);
+	userGuess.initializeCode(n, m);
+
+	answer.set(n, 0); //the answer should have n correct #s and 0 incorrect
 }
 
 mastermind::mastermind(int length, int range)
@@ -56,48 +62,79 @@ mastermind::mastermind(int length, int range)
 	m = range;
 
 	secretCode.initializeCode(n, m);
+	userGuess.initializeCode(n, m);
+
+	answer.set(n, 0); //the answer should have n correct #s and 0 incorrect
 }
 
 code mastermind::humanGuess()
 //this function allows the user to input a guess, and that guess is stored as a
-//code object. So, I initialize a temporary code object called tmpCode, and 
-//store the user's input into it, before returning the object:
+//code object so, I have the data member userGuess, and I call its input method
+//in order to store the user's input so I can use it later.
 {
-	code tmpCode;
-	tmpCode.initializeCode(n, m);
-	tmpCode.userInput();
+	userGuess.userInput();
 
-	return tmpCode;
+	return userGuess;
 }
 
 response mastermind::getResponse(code guess)
 //In this function we return a response object based on a user guess and the
-//secret code. We then return the response object, which contains the number
-//of correct and incorrect guesses:
+//secret code:
 {
 	response tmpResponse(secretCode, guess);
 	return tmpResponse;
 }
 
-bool mastermind::isSolved(response checkGuess)
+bool mastermind::isSolved(response guessResponse)
+//function checks if the given response object is identical to the private 
+//member answer:
 {
-	bool someBool = false;
-
-	cout << "this function is a work in progress... \n";
-
-	return someBool;
+	return answer == guessResponse;
 }
 
 void mastermind::printSecretCode()
 //The code class already has a perfectly good print function, so here we just 
 //call that method for the secretCode object:
 {
+	cout << "The secret code is: \n";
 	secretCode.printSequence();
 }
 
 void mastermind::playGame()
+//this functions controls the gameplay. Calling it will print out the secret
+//code, and then prompt the user to enter their guess, and then print out their
+//guess, as well as the number of correct and incorrect numbers they inputted.
+//When the turnCounter reaches 10, or isSolved returns true, the game ends!
 {
-	cout << "Oh hey, this isn't done yet, please don't read this! \n";
+	//intialize turnCounter:
+	int turnCounter = 0;
+
+	while(turnCounter < 10) //once turnCounter = 10, game ends
+	{
+		printSecretCode();
+
+		//update the userGuess code object:
+		humanGuess();	
+
+		cout << "You guess was: \n";
+		userGuess.printSequence();
+
+		if(isSolved(getResponse(userGuess)))
+		{
+			cout << "Congrats! You win! \n";
+			break; //make sure to actually stop playing
+		}
+		else
+		{
+			turnCounter++;	//advance turn counter 
+
+			//Tell players how many numbers they got right/wrong.
+			//Also, tells them how many turns are left:
+			cout << "numCorrect, numIncorrect = ";
+			cout << getResponse(userGuess) << "\n" << "\n";
+			cout << "You have " << 10 - turnCounter << " turns remaining! \n \n";
+		}
+	} //end while loop
 }
 
 /******************************************************************************/

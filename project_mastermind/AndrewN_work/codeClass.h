@@ -11,24 +11,24 @@ class code
 //the basic code class
 {
 	public:
-		code();					//default constructor
+		code();	//default constructor
 
 		void initializeCode(int length, int range);	//manually set n and m 
 		void codeGen();					//generates a random code
 		void userInput();				//records user's input into the sequence vector
 		void printSequence() const;			//prints the contents of the sequence vector
 
-		vector<int> returnSequence() const;	//returns the sequence vector in the code
+		vector<int> returnSequence() const;		//returns the sequence vector 
 
-		int checkCorrect(code guess);	//looks for correct digits in the correct location
-		int checkIncorrect(code guess);	//looks for correct digits in the incorrect location
+		int checkCorrect(code guess);	//return # of correct digits in correct location
+		int checkIncorrect(code guess);	//return # of correct digits in incorrect location
 
 	private:
 		int n;                  //length of the code
 		int m;                  //range of digits, [0, m-1]
 
 		vector<int> sequence;   //stores the numbers that make up the code
-		vector<bool> checker;	//used to keep track of where checkCorrect has already looked
+		vector<bool> checker;	//used to keep track of indexes where checkers already looked
 };
 
 /******************************************************************************
@@ -36,7 +36,9 @@ class code
  *****************************************************************************/
 
 code::code()
-//default constructor: creates a code object with an empty sequence:
+//default constructor: creates a code object with an empty sequence. I am doing 
+//this so that we can initialize an empty code object as part of the mastermind
+//class without overloading the constructor here:
 {
 	n = 0;
 	m = 0;
@@ -165,9 +167,9 @@ int code::checkIncorrect(code guess)
 			{
 				for(int j = 0; j < n; j++)
 				{
-					 //Don't want to check cells where we already know that it's correct,
-					 //After there is 1 match, we break and move onto the next guess:
-					 if(tempVec[i] == sequence[j] && checker[j] == 0)
+					//Don't want to check cells where we already know that it's correct,
+					//After there is 1 match, we break and move onto the next guess:
+					if(tempVec[i] == sequence[j] && checker[j] == 0)
 					{	
 						numIncorrect++;
 						 

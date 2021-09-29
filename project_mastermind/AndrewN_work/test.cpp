@@ -7,14 +7,9 @@ using namespace std;
 
 int main()
 {
-	//Initializing the game:
 	mastermind codemaker;
 
-	cout<<"Secret code: ";
-	codemaker.printSecretCode();
-
-	cout<<"Number correct, number incorrect: \n";
-	cout<<codemaker.getResponse(codemaker.humanGuess())<<"\n";
+	codemaker.playGame();
 
 	return 0;
 }
