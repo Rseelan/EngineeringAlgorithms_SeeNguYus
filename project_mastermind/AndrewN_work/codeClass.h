@@ -171,7 +171,7 @@ int code::checkIncorrect(code guess)
 					{	
 						numIncorrect++;
 						 
-						//he 2 lines prevent duplicate checks:
+						//These 2 lines prevent duplicate checks:
 						checker[j] = 1; 
 						break;		
 					} //end if
