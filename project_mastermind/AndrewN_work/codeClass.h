@@ -165,18 +165,14 @@ int code::checkIncorrect(code guess)
 			{
 				for(int j = 0; j < n; j++)
 				{
-					/********************************************************************************
-					 * Don't want to check cells where we already know that it's correct:		*
-					 * After there is 1 match, we break and move onto the next guess.	       	*
-					 * Here, I am trying to avoid duplicates. For example, if the sequence is 1,0,1 * 
-					 * and the guess is 0,1,2, I don't want it to see the 1 in the guess, and the   *
-					 * two 1's in the sequence, because then, it will tell the user that they have  *
-					 * 3 correct numbers in the wrong place, when they reall have 2		      	*
-					 ********************************************************************************/
-					if(tempVec[i] == sequence[j] && checker[j] == 0)
+					 //Don't want to check cells where we already know that it's correct,
+					 //After there is 1 match, we break and move onto the next guess:
+					 if(tempVec[i] == sequence[j] && checker[j] == 0)
 					{	
 						numIncorrect++;
-
+						 
+						//he 2 lines prevent duplicate checks:
+						checker[j] = 1; 
 						break;		
 					} //end if
 				} //end for loop
