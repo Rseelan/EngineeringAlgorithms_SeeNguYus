@@ -108,7 +108,7 @@ void mastermind::playGame()
 	//intialize turnCounter:
 	int turnCounter = 0;
 
-	while(turnCounter < 10) //once turnCounter = 10, game ends
+	while (turnCounter < 10) //once turnCounter = 10, game ends
 	{
 		printSecretCode();
 
@@ -118,7 +118,7 @@ void mastermind::playGame()
 		cout << "You guess was: \n";
 		userGuess.printSequence();
 
-		if(isSolved(getResponse(userGuess)))
+		if (isSolved(getResponse(userGuess)))
 		{
 			cout << "Congrats! You win! \n";
 			break; //make sure to actually stop playing
