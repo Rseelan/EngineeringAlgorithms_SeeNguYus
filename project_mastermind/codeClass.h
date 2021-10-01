@@ -7,6 +7,8 @@
 
 using namespace std;
 
+//this header files contains the declarations and definitions of the code class 
+
 class code
 //the basic code class
 {
@@ -70,7 +72,7 @@ void code::userInput()
 
 	int temp; //temporary variable that will store the user inputs
 
-	for(int i = 0; i < n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		cout << "Enter a number between 0 and " << m - 1 << ": ";
 		cin >> temp;
@@ -95,7 +97,7 @@ void code::printSequence() const
 //This function prints the content of the sequence vector to the screen by
 //printing each item followed by a comma then a space
 {
-	for(int i = 0; i < n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		cout << sequence[i] << ", "; 
 	}
@@ -123,7 +125,7 @@ int code::checkCorrect(code guess)
 	checker.clear();
 
 	//This for loop looks at where each correct guess is located:
-	for(int i = 0; i < sequence.size(); i++)
+	for (int i = 0; i < sequence.size(); i++)
 	{
 		//here, we will be editing the checker vector.
 		//put a 1 into the indexes where there is the correct number,
@@ -161,7 +163,7 @@ int code::checkIncorrect(code guess)
 		 * that we only examine a guess if it is not correct and in the right place  *
 		 * and then, in the second loop we step through the sequence vector	     *
 		 *****************************************************************************/
-		for(int i = 0; i < n; i++)
+		for (int i = 0; i < n; i++)
 		{
 				for(int j = 0; j < n; j++)
 				{
