@@ -8,22 +8,22 @@ using namespace std;
 class card
 {
 public:
-	card(int val = 0, string suit = "unsigned");
+	card(int val = 0, char suit = 'X');
 
 	void setValue(int x);
-	void setSuit(string x);
-	
+	void setSuit(char x);
+
 	int getValue();
-	string getSuit();
+	char getSuit();
 
 	friend ostream& operator<< (ostream& ostr, const card& c);
 
 private:
 	int value;
-	string suit;
+	char suit;
 };
 
-card::card(int valIn = 0, string suitIn = "unsigned")
+card::card(int valIn = 0, char suitIn = 'X')
 {
 	value = valIn;
 	suit = suitIn;
@@ -34,7 +34,7 @@ void card::setValue(int x)
 	value = x;
 }
 
-void card::setSuit(string x)
+void card::setSuit(char x)
 {
 	suit = x;
 }
@@ -44,7 +44,7 @@ int card::getValue()
 	return value;
 }
 
-string card::getSuit()
+char card::getSuit()
 {
 	return suit;
 }
