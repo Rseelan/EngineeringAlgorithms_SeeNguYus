@@ -1,3 +1,6 @@
+#ifndef CODE_H
+#define CODE_H
+
 #include <iostream>
 
 using namespace std;
@@ -5,7 +8,7 @@ using namespace std;
 class card
 {
 public:
-	card();
+	card(int val = 0, string suit = "unsigned");
 
 	void setValue(int x);
 	void setSuit(string x);
@@ -20,10 +23,10 @@ private:
 	string suit;
 };
 
-card::card()
+card::card(int valIn = 0, string suitIn = "unsigned")
 {
-	value = 0;
-	suit = "unsigned";
+	value = valIn;
+	suit = suitIn;
 }
 
 void card::setValue(int x)
@@ -51,3 +54,5 @@ ostream& operator<< (ostream& ostr, const card& c)
 	ostr << c.value << ', ' << c.suit << endl;
 	return ostr;
 }
+
+#endif
