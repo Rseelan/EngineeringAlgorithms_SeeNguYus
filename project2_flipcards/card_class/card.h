@@ -8,7 +8,7 @@ using namespace std;
 class card
 {
 public:
-	card(int val = 0, char suit = 'X');
+	card(int valIn = 0, char suitIn = 'X');
 
 	void setValue(int x);
 	void setSuit(char x);
@@ -23,7 +23,9 @@ private:
 	char suit;
 };
 
-card::card(int valIn = 0, char suitIn = 'X')
+/****************************Function Implementation***************************/
+
+card::card(int valIn, char suitIn)
 {
 	value = valIn;
 	suit = suitIn;
@@ -51,8 +53,12 @@ char card::getSuit()
 
 ostream& operator<< (ostream& ostr, const card& c)
 {
-	ostr << c.value << ', ' << c.suit << endl;
+	//for some reason the ',' in this line gives an error:
+	//ostr << c.value << ', ' << c.suit << endl;
+	
+	ostr << c.value << c.suit;
 	return ostr;
 }
+/*****************************************************************************/
 
 #endif
