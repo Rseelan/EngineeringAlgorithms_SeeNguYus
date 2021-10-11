@@ -67,11 +67,37 @@ deck::~deck()
 	cout<<"done \n";
 }
 
-//This function 'shuffles the deck,' meansing that it takes the order of cards,
-//1 to 52, and randomizes them, while keeping them connected as a linked list:
+//This function shuffles the deck, randomizing the order of cards while keeping
+//them connected as a linked list:
 void deck::shuffle()
 {
-	cout << "This is really hard, and it's not my job! \n";
+	node<card>* temp;	//linked list that stores front
+	node<card>* curr;
+	node<card>* prev;
+
+	//creating a range of random numbers:
+	int max = 50;
+	int min = 2;
+	int range = max - min + 1;
+
+	int num;	//random number
+
+	for (int j = 0; j<100; j++)
+	{
+		num = rand() % range + min;
+		temp = front;
+
+		for (int i = 0; i < num; i++)
+		{
+		    prev = temp;
+		    temp = temp->next;	//delete top node of temp
+		}
+
+	curr = temp->next;
+	temp->next = curr->next;
+	curr->next = temp;
+	prev->next = curr;
+	}
 }
 
 //overloading iostream's << operator to print out the contents of a deck object:
