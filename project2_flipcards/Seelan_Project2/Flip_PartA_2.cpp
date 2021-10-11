@@ -6,6 +6,8 @@
 
 using namespace std;
 
+//complete deck linked list implementation and shuffle function
+
 class Card {
 
     public:
@@ -58,17 +60,19 @@ string Card::getSuit(){
     return suit;
 }
 
-
 class Deck{
     public:
+
+        //constructor of Deck class
         Deck(){
 
+            //allocate a new node for frontcard to contain
             frontcard = new node<Card>();
-            // Card cardtemp(1, "Clubs");
-            // frontcard->nodeValue = cardtemp;
 
+            //head2 serves as a temporary "head" for each suit
             head2 = frontcard;
 
+            //logic for changing the suit 
             for (int j = 0; j<4; j++){
 
                 if (j == 0){
@@ -86,36 +90,50 @@ class Deck{
                     suitVar = "Spades";
                 }
 
-                //head2 = new node<Card>();
+                //logic for implementing the "head" of each suit is a bit different to what's in the for loop
                 Card cardtemp(1, suitVar);
                 head2->nodeValue = cardtemp;
-                //n->next = head2;
+
                 t = head2;
 
+                //n represents the node we are on. t is a temporary node variable used.
                 for (int i = 2; i<14; i++){
+                    
+                    //allocate a new node
                     n = new node<Card>();
                     Card cardtemp(i, suitVar);
+
+                    //populate value of node
                     n-> nodeValue = cardtemp;
+
+                    //update the "next" parameter of a t node
                     t->next = n;
+
+                    //move t to our next node, n
                     t = n;
 
                 }
-
-
+                
+                //allocate a new node to represent head 2
                 head2 = new node<Card>();
+
+                //have t point to the new "head" in our next suit
                 t->next = head2;
 
                 }
 
+            //end our linked list
             n->next = NULL;
 
             printList(frontcard);
             
         }
 
-        
+        //shuffle function declarations
         void shuffle();
+        void shuffle3Times();
 
+        //print contents of linked list
         void printList(node<Card>* temp){
 
             while (temp != NULL) {
@@ -124,57 +142,148 @@ class Deck{
             }
 
         }
+
+
     private:
 
+        //absolute head of our linked list
         node<Card> *frontcard;
+
+        //nodes used to create linked list
         node<Card> *head2;
         node<Card> *n;
         node<Card> *t;
-        node<Card> * last;
+
         string suitVar;
 
 };
 
+//the logic of our shuffle algorithm is to randomly choose pair in the linked list and then swap them
 void Deck::shuffle(){
 
+    //three node pointers will be used to shuffle our linked list
     node<Card>* temp;
     node<Card>* curr;
     node<Card>* prev;
 
+    //specify parameters for choosing a node in our linked list
     int max = 50;
-    int min = 2;
+    int min = 0;
     int range = max - min + 1;
     int num;
 
+    //our index is set to an extremely high value as we want to shuffle as many times possible
+    for (int j = 0; j<1000; j++){
 
-    for (int j = 0; j<100; j++){
-
+        //choose a random pair to shuffle
         num = rand() % range + min;
-        cout<<num<<endl;
-        temp = frontcard;
 
-        for (int i = 0; i<num;i++){
+        //if we are dealing with the head node
+        if (num == 0){
 
-            prev = temp;
-            temp = temp->next;
+            //set our placeholder nodes
+            prev = frontcard;
+            temp = prev->next;
+            curr = temp->next;
+
+            //perform the swap but set our temp to be the absolute front of our linked list after
+            prev->next = curr;
+            temp->next = prev;
+            frontcard = temp;
 
         }
 
-        curr = temp->next;
-        temp->next = curr->next;
-        curr->next = temp;
-        prev->next = curr;
+        //if we are dealing with any node that isn't a header node
+        //The logic for this is as follows:
+        // prev node -> temp node -> curr node
+        else {
+
+            temp = frontcard;
+
+            //traverse to the pair we want to swap
+            for (int i = 0; i<num;i++){
+
+                prev = temp;
+                temp = temp->next;
+
+            }
+
+            //set curr to the next node present after "temp"
+            curr = temp->next;
+
+            //perform the swap
+            temp->next = curr->next;
+            curr->next = temp;
+            prev->next = curr;
+            //prev node ->  curr node -> temp node
+
+        }
+
 
     }
 
+}
+
+//prototype algo - should be more efficient
+// void Deck::shuffle2(){
+
+//     node<Card>* tempx;
+//     node<Card>* tempy;
+//     node<Card>* prevx;
+//     node<Card>* prevy;
+
+//     tempx = frontcard;
+//     tempy = frontcard;
+
+//     for (int i = 0; i<8;i++){
+//         prevx = tempx;
+//         tempx = tempx->next;
+
+//     }
+
+//     for (int i = 0; i<10;i++){
+//         prevy = tempy;
+//         tempy = tempy->next;
+
+//     }
+
+//     // tempy->next = tempx->next;
+//     // prevy->next = tempx;
+//     // tempx->next = prevx;
+//     // prevx -> next= tempy;
+
+
+
+    
+// }
+
+void Deck::shuffle3Times(){
+
+    //call on our shuffle function 3 times
+    for (int i = 0; i<4; i++){
+        shuffle();
+
+    }
+    
+    //print our entire linked list
     printList(frontcard);
 
 }
 
+
 int main(){
+
+    //our constructor will print out the linked list as well
     Deck Deck1;
+
+    //A simple phrase to sh
     cout<<"seperate"<<endl;
+
     cout<<endl;
-    Deck1.shuffle();
+
+    //after being shuffled three times, the shuffled linked list will be printed
+    Deck1.shuffle3Times();
+
     return 0;
+
 }
