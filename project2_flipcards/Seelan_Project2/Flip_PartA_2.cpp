@@ -73,21 +73,20 @@ class Deck{
             head2 = frontcard;
 
             //logic for changing the suit 
-            for (int j = 0; j<4; j++){
-
-                if (j == 0){
-                    suitVar = "Clubs";  
-                }
-                else if(j == 1){
+                switch(j){
+                    
+                    case 0:
+                    suitVar = "Clubs";
+                    break;
+                    case 1:
                     suitVar = "Diamonds";
-                }
-
-                else if(j == 2){
+                    case 2:
                     suitVar = "Hearts";
-
-                }
-                else {
+                    break;
+                    case 3:
                     suitVar = "Spades";
+                    break;
+
                 }
 
                 //logic for implementing the "head" of each suit is a bit different to what's in the for loop
