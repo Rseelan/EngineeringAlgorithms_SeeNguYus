@@ -124,14 +124,15 @@ class Deck{
 
             //end our linked list
             n->next = NULL;
-
-            printList(frontcard);
             
         }
 
         //shuffle function declarations
         void shuffle();
         void shuffle3Times();
+
+        //print out our entire linked list
+        friend ostream& operator<<(ostream &ostr, const Deck DeckObj);
 
         //print contents of linked list
         void printList(node<Card>* temp){
@@ -251,10 +252,7 @@ void Deck::shuffle(){
 //     // prevy->next = tempx;
 //     // tempx->next = prevx;
 //     // prevx -> next= tempy;
-
-
-
-    
+ 
 // }
 
 void Deck::shuffle3Times(){
@@ -264,10 +262,51 @@ void Deck::shuffle3Times(){
         shuffle();
 
     }
-    
-    //print our entire linked list
-    printList(frontcard);
 
+}
+
+//main thing about this overloaded operator is that it checks the Card's value within nodeValue and prints if its a normal number
+//Ace, Joker, Queen, and King
+ostream& operator<<(ostream &ostr, const Deck DeckObj)
+{
+
+    //our "pointer" which is used to traverse the linked list
+    node<Card>* temp;
+
+    //set temp equal to the front card of the linked list
+    temp = DeckObj.frontcard;
+
+    //travese linked list until we reach the end 
+    while (temp != NULL) {
+
+        //check what the card value is at each traversal
+        switch(temp->nodeValue.getvalue()){
+            case 1:
+            cout<<"Ace"<<" ";
+            cout<<temp->nodeValue.getSuit()<<endl;
+            break;
+            case 11:
+            cout<<"Joker"<<" ";
+            cout<<temp->nodeValue.getSuit()<<endl;
+            break;
+            case 12:
+            cout<<"Queen"<<" ";
+            cout<<temp->nodeValue.getSuit()<<endl;
+            break;
+            case 13:
+            cout<<"King"<<" ";
+            cout<<temp->nodeValue.getSuit()<<endl;
+            break;
+            default :
+            cout<< temp->nodeValue <<endl;
+
+        }
+
+        //traverse linked list
+        temp = temp->next;
+        }
+
+	return ostr;
 }
 
 
@@ -276,13 +315,17 @@ int main(){
     //our constructor will print out the linked list as well
     Deck Deck1;
 
-    //A simple phrase to sh
-    cout<<"seperate"<<endl;
+    //test output stream operator
+    cout<<Deck1;
 
+    cout<<"seperate"<<endl;
     cout<<endl;
 
     //after being shuffled three times, the shuffled linked list will be printed
     Deck1.shuffle3Times();
+    
+    //test output stream operator
+    cout<<Deck1;
 
     return 0;
 
