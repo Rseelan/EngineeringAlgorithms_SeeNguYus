@@ -92,7 +92,7 @@ void Deck::shuffle(){
         //if we are dealing with the head node
         if (num == 0){
 
-            //set our placeholder nodes
+            //set our placeholder nodes before we swap the cards
             prev = frontcard;
             temp = prev->next;
             curr = temp->next;
