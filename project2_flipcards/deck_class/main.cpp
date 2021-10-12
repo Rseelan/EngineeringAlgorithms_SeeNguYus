@@ -17,12 +17,12 @@ using namespace std;
 
 int main()
 {
-	//create new deck object pointer:
+	//Create a deck pointer:
 	deck *myDeck = new deck;
 	cout << "Default deck: \n";
 	cout << myDeck << endl;
 
-	//Do stuff with that deck object:
+	//Shuffle the deck::
 	myDeck->shuffle();
 	cout << "Shuffled deck: \n";
 	cout << myDeck << endl;
