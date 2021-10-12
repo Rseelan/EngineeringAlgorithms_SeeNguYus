@@ -1,3 +1,14 @@
+/******************************************************************************
+ * Project 2a		   Group members:				      *
+ * 			   Rohan Seelan - seelan.r@northeastern.edu	      *
+ * 			   Andrew Nguyen - nguyen.andrew@northeastern.edu     *
+ * 			   Arbid Ysuuf - yusuf.ar@northeastern.edu            *
+ * 								     	      *
+ * This program contains the declaration of the deck class as well as the     *
+ * implementation of the shuffle function. Prints both the default deck and   *
+ * the shuffled deck and then clears the memory space.                        *
+ ******************************************************************************/
+
 #include <iostream>
 #include <stdlib.h>
 #include "deck.h"
@@ -11,7 +22,7 @@ int main()
 	cout << "Default deck: \n";
 	cout << myDeck << endl;
 
-	//Do stiff with that deck object:
+	//Do stuff with that deck object:
 	myDeck->shuffle();
 	cout << "Shuffled deck: \n";
 	cout << myDeck << endl;
