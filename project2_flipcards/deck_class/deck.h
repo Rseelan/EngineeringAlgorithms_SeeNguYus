@@ -101,7 +101,6 @@ void Deck::shuffle(){
             prev->next = curr;
             temp->next = prev;
             frontcard = temp;
-
         }
 
         //if we are dealing with any node that isn't a header node
@@ -127,12 +126,8 @@ void Deck::shuffle(){
             curr->next = temp;
             prev->next = curr;
             //prev node ->  curr node -> temp node
-
         }
-
-
     }
-
 }
 
 //overloading iostream's << operator to print out the contents of a deck object:
@@ -146,10 +141,29 @@ ostream& operator<<(ostream &ostr, const deck *d)
 	{
 		for(int i = 0; i < 13; i++)
 		{
-			//print current front val:
-			ostr << tmpList->nodeValue << " ";	
-			tmpList = tmpList->next; //delete tmpList's front
-			}
+			//check what the card value is before printing:
+        		switch(tmpList->nodeValue.getValue())
+			{
+        	    	case 1:
+        	    		cout << "Ace";
+        	    		cout << tmpList->nodeValue.getSuit() << " ";
+        	    		break;
+        	    	case 11:
+        	    		cout << "Joker";
+        	    		cout << tmpList->nodeValue.getSuit() << " ";
+        	    		break;
+        	    	case 12:
+        	    		cout << "Queen";
+        	    		cout << tmpList->nodeValue.getSuit() << " ";
+        	    		break;
+        	    	case 13:
+        	    		cout << "King";
+        	    		cout << tmpList->nodeValue.getSuit() << " ";
+        	    		break;
+        	    	default:
+        	    		cout<< tmpList->nodeValue << " ";	
+			} //end switch
+		} //end for loop
 		cout << endl << endl; //print empty line for added readability
 	} //end while loop
 
