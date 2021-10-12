@@ -70,8 +70,8 @@ deck::~deck()
 //This function shuffles the deck, randomizing the order of cards while keeping
 //them connected as a linked list:
 //the logic of our shuffle algorithm is to randomly choose pair in the linked list and then swap them
-void Deck::shuffle(){
-
+void Deck::shuffle()
+{
     //three node pointers will be used to shuffle our linked list
     node<Card>* temp;
     node<Card>* curr;
@@ -84,14 +84,14 @@ void Deck::shuffle(){
     int num;
 
     //our index is set to an extremely high value as we want to shuffle as many times possible
-    for (int j = 0; j<1000; j++){
-
+    for (int j = 0; j<1000; j++)
+    {
         //choose a random pair to shuffle
         num = rand() % range + min;
 
         //if we are dealing with the head node
-        if (num == 0){
-
+        if (num == 0)
+	{
             //set our placeholder nodes before we swap the cards
             prev = frontcard;
             temp = prev->next;
@@ -101,21 +101,20 @@ void Deck::shuffle(){
             prev->next = curr;
             temp->next = prev;
             frontcard = temp;
-        }
+        } //end if
 
         //if we are dealing with any node that isn't a header node
         //The logic for this is as follows:
         // prev node -> temp node -> curr node
-        else {
-
+        else 
+	{
             temp = frontcard;
 
             //traverse to the pair we want to swap
-            for (int i = 0; i<num;i++){
-
+            for (int i = 0; i<num;i++)
+	    {
                 prev = temp;
                 temp = temp->next;
-
             }
 
             //set curr to the next node present after "temp"
@@ -126,8 +125,8 @@ void Deck::shuffle(){
             curr->next = temp;
             prev->next = curr;
             //prev node ->  curr node -> temp node
-        }
-    }
+        } //end else
+    } //end for loop
 }
 
 //overloading iostream's << operator to print out the contents of a deck object:
