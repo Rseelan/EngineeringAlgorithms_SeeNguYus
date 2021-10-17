@@ -1,0 +1,21 @@
+            for (int i = 0; i < 52; i++){
+
+                node<Card> *tmp = new node<Card>;
+                Card cardObj(i);
+                tmp->nodeValue = cardObj;
+                tmp->next = NULL;
+
+                if (head == NULL){
+
+                    head = tmp;
+                    tail = tmp;
+
+                }
+
+                else{
+
+                    tail -> next = tmp;
+                    tail = tail->next;
+                }
+
+            }
