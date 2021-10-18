@@ -11,10 +11,12 @@ using namespace std;
 class deck
 {
 	public:
-		deck();		//default constructor
-		~deck();	//default destructor
+		deck(int numCards = 52);	//default constructor
+		~deck();			//default destructor
 
 		void shuffle();	//randomizes order of the cards
+
+		void replace(card newBottomCard); //puts a new card on bottom of deck
 
 		//overloaded << operator:
 		friend ostream& operator<<(ostream &ostr, const deck *deckOut);
@@ -22,7 +24,7 @@ class deck
 	private:
 		//the deck will be a linked list of card object nodes,
 		//here front points to top card of the deck:
-		node<card> *front = NULL;	
+		node<card> *front = NULL;
 
 		//store all the suits as an array of characters:
 		char suits[4] = {'D', 'C', 'H', 'S'};
@@ -30,34 +32,42 @@ class deck
 
 /****************************Function Implementation***************************/
 
-//default constructor for deck class. This function initializes all 52 unique
-//cards that will be found in the deck. the main loop and the value loop count
-//down so that when they're done, the ace of spades will be the card on top:
-deck::deck()
+//default constructor for deck class. This function creates a deck of cards with
+//numCard cards in it. It starts with the King of Diamonds, and goes down to the
+//Ace of spades. Intend to initialize a deck with either 52 or 0 cards
+deck::deck(int numCards)
 {
+	int cardVal = 13;		//keeps track of card value. Start with king
+	int suitNum = 0;		//keeps track of suit. Start with Diamond
+
 	node<card> *nextCard;	//points to next card in front
 	card tmpCard(24, 'Z');	//temp card with junk values to appease compiler
 
-	//This for loop will count through every card in the deck:
-	for(int i = 52; i > 0; i--)
+	//This for loop will count through every card in the deck set its value:
+	for(int i = numCards; i > 0; i--)
 	{
-		//this loop counts through each suit:
-		for(int suitNum = 0; suitNum < 4; suitNum++)
-		{
-			//this loop assigns card values and suits to new cards 
-			//and then pushes them into the linked list:
-			for(int cardVal = 13; cardVal > 0; cardVal--)
-			{
-				//update tmpCard's values:
-				tmpCard.setValue(cardVal);
-				tmpCard.setSuit(suits[suitNum]);
+		//update tmpCard's values:
+		tmpCard.setValue(cardVal);
+		tmpCard.setSuit(suits[suitNum]);
 
-				//push a new card to the linked list:
-				nextCard = new node<card>(tmpCard, front);	
-				front = nextCard;
-			} //end value loop
-		} //end suit loop
-	} //end main loop
+		//push a new card node to the linked list:
+		nextCard = new node<card>(tmpCard, front);	
+		front = nextCard;
+
+		//Decrease cardVal every loop until it reaches 1, and when it does,
+		//reset it back to 13, and when that happens, go to the next suit:
+		if (cardVal > 1)
+		{
+			cardVal--;
+		}
+		else
+		{
+			//If for some reason you want more than 52 cards, this will make
+			//sure that suitNum doesn't exceed 3:
+			suitNum < 4 ? suitNum++ : suitNum = 0;
+			cardVal = 13;
+		}
+	} //end for loop
 }
 
 //default destructor for deck class. Frees memory from *front and *nextCard:
@@ -70,70 +80,83 @@ deck::~deck()
 //This function shuffles the deck, randomizing the order of cards while keeping
 //them connected as a linked list:
 //the logic of our shuffle algorithm is to randomly choose pair in the linked list and then swap them
-void Deck::shuffle()
+void deck::shuffle()
 {
-    //three node pointers will be used to shuffle our linked list
-    node<Card>* temp;
-    node<Card>* curr;
-    node<Card>* prev;
+	//three node pointers will be used to shuffle our linked list
+	node<card>* temp;
+	node<card>* curr;
+	node<card>* prev;
 
-    //specify parameters for choosing a node in our linked list
-    int max = 50;
-    int min = 0;
-    int range = max - min + 1;
-    int num;
+	//specify parameters for choosing a node in our linked list
+	int max = 50;
+	int min = 0;
+	int range = max - min + 1;
+	int num;
 
-    //our index is set to an extremely high value as we want to shuffle as many times possible
-    for (int j = 0; j<1000; j++)
-    {
-        //choose a random pair to shuffle
-        num = rand() % range + min;
-
-        //if we are dealing with the head node
-        if (num == 0)
+	//our index is set to an extremely high value as we want to shuffle as many times possible
+	for (int j = 0; j<1000; j++)
 	{
-            //set our placeholder nodes before we swap the cards
-            prev = frontcard;
-            temp = prev->next;
-            curr = temp->next;
+		//choose a random pair to shuffle
+		num = rand() % range + min;
 
-            //perform the swap but set our temp to be the absolute front of our linked list after
-            prev->next = curr;
-            temp->next = prev;
-            frontcard = temp;
-        } //end if
+		//if we are dealing with the head node
+		if (num == 0)
+		{
+			//set our placeholder nodes before we swap the cards
+			prev = front;
+			temp = prev->next;
+			curr = temp->next;
 
-        //if we are dealing with any node that isn't a header node
-        //The logic for this is as follows:
-        // prev node -> temp node -> curr node
-        else 
+			//perform the swap but set our temp to be the absolute front of our linked list after
+			prev->next = curr;
+			temp->next = prev;
+			front = temp;
+		} //end if
+		//if we are dealing with any node that isn't a header node
+		//The logic for this is as follows:
+		// prev node -> temp node -> curr node
+		else 
+		{
+			temp = front;
+
+			//traverse to the pair we want to swap
+			for (int i = 0; i<num;i++)
+			{
+			prev = temp;
+			temp = temp->next;
+			}
+
+			//set curr to the next node present after "temp"
+			curr = temp->next;
+
+			//perform the swap
+			temp->next = curr->next;
+			curr->next = temp;
+		prev->next = curr;
+		//prev node ->  curr node -> temp node
+		} //end else
+	} //end for loop
+}
+
+//This function passes a card and places it at the bottom of the deck:
+void deck::replace(card newBottomCard)
+{
+	//eventually, this node will point to the bottom of the deck:
+	node<card> *bottom = front;	
+
+	//In this loop, we find the last node in front:
+	while (bottom->next != NULL)
 	{
-            temp = frontcard;
-
-            //traverse to the pair we want to swap
-            for (int i = 0; i<num;i++)
-	    {
-                prev = temp;
-                temp = temp->next;
-            }
-
-            //set curr to the next node present after "temp"
-            curr = temp->next;
-
-            //perform the swap
-            temp->next = curr->next;
-            curr->next = temp;
-            prev->next = curr;
-            //prev node ->  curr node -> temp node
-        } //end else
-    } //end for loop
+		bottom = bottom->next;
+	}
+	
+	bottom->next = new node<card>(newBottomCard, NULL);
 }
 
 //overloading iostream's << operator to print out the contents of a deck object:
 ostream& operator<<(ostream &ostr, const deck *d)
 {
 	node<card> *tmpList = d->front;
-	int checker = 0;
 
 	//in this for loop, we will be printing the deck in four rows of 13:	
 	for(int i = 0; i < 4; i++)
@@ -148,7 +171,7 @@ ostream& operator<<(ostream &ostr, const deck *d)
         	    		cout << tmpList->nodeValue.getSuit() << " ";
         	    		break;
         	    	case 11:
-        	    		cout << "Joker";
+        	    		cout << "Jack";
         	    		cout << tmpList->nodeValue.getSuit() << " ";
         	    		break;
         	    	case 12:
@@ -160,8 +183,9 @@ ostream& operator<<(ostream &ostr, const deck *d)
         	    		cout << tmpList->nodeValue.getSuit() << " ";
         	    		break;
         	    	default:
-        	    		cout<< tmpList->nodeValue << " ";	
+        	    		cout << tmpList->nodeValue << " ";	
 			} //end switch
+			tmpList = tmpList->next; //delete tmpList's front
 		} //end for loop
 		cout << endl << endl; //print empty line for added readability
 	} //end while loop
