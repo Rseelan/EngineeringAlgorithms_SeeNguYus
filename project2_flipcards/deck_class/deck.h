@@ -157,38 +157,54 @@ void deck::replace(card newBottomCard)
 ostream& operator<<(ostream &ostr, const deck *d)
 {
 	node<card> *tmpList = d->front;
+	
+	int counter = 0; //keeps track of # of cards printed
 
-	//in this for loop, we will be printing the deck in four rows of 13:	
-	for(int i = 0; i < 4; i++)
+	//in this for loop, we will be printing the deck in rows of 13:	
+	while(tmpList != NULL)
 	{
-		for(int i = 0; i < 13; i++)
+		//check what the card value is before printing:
+		switch(tmpList->nodeValue.getValue())
 		{
-			//check what the card value is before printing:
-        		switch(tmpList->nodeValue.getValue())
-			{
-        	    	case 1:
-        	    		cout << "Ace";
-        	    		cout << tmpList->nodeValue.getSuit() << " ";
-        	    		break;
-        	    	case 11:
-        	    		cout << "Jack";
-        	    		cout << tmpList->nodeValue.getSuit() << " ";
-        	    		break;
-        	    	case 12:
-        	    		cout << "Queen";
-        	    		cout << tmpList->nodeValue.getSuit() << " ";
-        	    		break;
-        	    	case 13:
-        	    		cout << "King";
-        	    		cout << tmpList->nodeValue.getSuit() << " ";
-        	    		break;
-        	    	default:
-        	    		cout << tmpList->nodeValue << " ";	
-			} //end switch
-			tmpList = tmpList->next; //delete tmpList's front
-		} //end for loop
-		cout << endl << endl; //print empty line for added readability
+		case 1:
+			cout << "Ace";
+			cout << tmpList->nodeValue.getSuit() << " ";
+			break;
+		case 11:
+			cout << "Jack";
+			cout << tmpList->nodeValue.getSuit() << " ";
+			break;
+		case 12:
+			cout << "Queen";
+			cout << tmpList->nodeValue.getSuit() << " ";
+			break;
+		case 13:
+			cout << "King";
+			cout << tmpList->nodeValue.getSuit() << " ";
+			break;
+		default:
+			cout << tmpList->nodeValue << " ";	
+		} //end switch
+
+		tmpList = tmpList->next; //delete tmpList's front
+
+		//I wanted to do this in a ternary statement, but I needed to
+		//execute two commands when counter reaches 12. sadness.
+		if(counter < 12)
+		{
+			counter++;
+		}
+		else
+		{
+			//print empty line for added readability:
+			cout << endl << endl;	
+
+			//reset counter:
+			counter = 0;		
+		}
 	} //end while loop
+
+	cout << endl << endl;	
 
 	return ostr;
 }
