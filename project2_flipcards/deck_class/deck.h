@@ -15,6 +15,8 @@ class deck
 		~deck();	//default destructor
 
 		void shuffle();	//randomizes order of the cards
+	
+		Card deal(); //Deal function, it removes a card object from our "original" linked list and returns it
 
 		//overloaded << operator:
 		friend ostream& operator<<(ostream &ostr, const deck *deckOut);
@@ -127,6 +129,21 @@ void Deck::shuffle()
             //prev node ->  curr node -> temp node
         } //end else
     } //end for loop
+}
+
+Card Deck::deal(){
+
+    //temp variable so we can store our front card
+    topCard = frontcard;
+
+    //store contents of our front card into a card object
+    Card cardFrontTemp(topCard->nodeValue.getvalue(), topCard->nodeValue.getSuit());
+
+    //"remove the first card from our original deck"
+    frontcard = frontcard ->next;
+
+    //return card object
+    return cardFrontTemp;
 }
 
 //overloading iostream's << operator to print out the contents of a deck object:
