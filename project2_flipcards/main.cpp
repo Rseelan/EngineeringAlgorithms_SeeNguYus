@@ -92,36 +92,44 @@ void playGame()
 			break;
 		}
 
-		selectedCard.setValue(deck2.returnCardValue(userInput));
-		selectedCard.setSuit(deck2.returnCardSuit(userInput));
-
-		cout << "You card is the " << selectedCard << endl << endl;
-
-		//examine card value:
-		switch(selectedCard.getValue()){
-			case 1:
-				score = score + 10;
-				break;
-			case 11: case 12: case 13:
-				score = score + 5;
-				break;
-			case 8: case 9: case 10: 
-				score = score + 0;
-				break;
-			case 7:
-				score = score / 2;
-				break;
-			case 2: case 3: case 4: case 5: case 6:
-				score = 0;
-				break;
-			default :
-				cout << "Please provide a valid user input: " << endl;
-		} //end switch statement
-
-		//examine suits
-		if(char tempChar = selectedCard.getSuit() == 'H')
+		if(deck2.returnIsFlipped(userInput) == true)
 		{
-			score++;
+		    cout << "This card has already been picked." << endl;
+		}
+		else
+		{
+			deck2.cardFlip(userInput);
+			selectedCard.setValue(deck2.returnCardValue(userInput));
+			selectedCard.setSuit(deck2.returnCardSuit(userInput));
+
+			cout << "Your card is the " << selectedCard << endl << endl;
+
+			//examine card value:
+			switch(selectedCard.getValue()){
+				case 1:
+					score = score + 10;
+					break;
+				case 11: case 12: case 13:
+					score = score + 5;
+					break;
+				case 8: case 9: case 10: 
+					score = score + 0;
+					break;
+				case 7:
+					score = score / 2;
+					break;
+				case 2: case 3: case 4: case 5: case 6:
+					score = 0;
+					break;
+				default :
+					cout << "Please provide a valid user input: " << endl;
+			} //end switch statement
+
+			//examine suits
+			if(char tempChar = selectedCard.getSuit() == 'H')
+			{
+				score++;
+			}
 		}
 	} //end "isPlaying" while loop
 }
