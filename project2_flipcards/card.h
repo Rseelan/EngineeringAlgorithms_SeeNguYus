@@ -20,6 +20,9 @@ public:
 
 	int getValue();		// Returns value of card
 	char getSuit();		// Returns suit of card
+	
+	void flip();		// Flips boolean isFlipped
+        bool getIsFlipped();	// returns boolean isFlipped
 
 	void operator=(const card& rhs); // Overloaded assignment operator
 
@@ -29,6 +32,7 @@ public:
 private:
 	int value;
 	char suit;
+	bool isFlipped;
 };
 
 /****************************Function Implementation***************************/
@@ -38,6 +42,7 @@ card::card(int valIn, char suitIn)
 {
 	value = valIn;
 	suit = suitIn;
+	isFlipped = false;
 }
 
 card::card(const card& c1)
@@ -45,6 +50,7 @@ card::card(const card& c1)
 {
 	value = c1.value;
 	suit = c1.suit;
+	isFlipped = c1.isFlipped;
 }
 
 void card::setValue(int x)
@@ -69,6 +75,18 @@ char card::getSuit()
 // Returns suit of a card.
 {
 	return suit;
+}
+
+void Card::flip()
+// Flips boolean isFlipped from false to true.
+{
+    isFlipped = true;
+}
+
+bool Card::getIsFlipped()
+// Returns isFlipped.
+{
+    return isFlipped;
 }
 
 void card::operator=(const card& rhs)
