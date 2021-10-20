@@ -18,6 +18,9 @@ class deck
 		//individual cards in the linked list:
 		int returnCardValue(int x);
 		char returnCardSuit(int x);
+		
+		void cardFlip(int x);	//flips boolean isFlipped in card object
+       		bool returnIsFlipped(int x); //returns boolean isFlipped from card object
 
 		void shuffle();	//randomizes order of the cards
 
@@ -42,6 +45,7 @@ class deck
 //default constructor for deck class. This function creates a deck of cards with
 //numCard cards in it. It starts with the King of Diamonds, and goes down to the
 //Ace of spades. Intend to initialize a deck with either 52 or 0 cards
+
 deck::deck(int numCards)
 {
 	int cardVal = 13;		//keeps track of card value. Start with king
@@ -112,6 +116,31 @@ char deck::returnCardSuit(int x)
 
 	cardSuit = tempValue->nodeValue.getSuit();
 	return cardSuit;
+}
+
+void deck::cardFlip(int x)
+{
+    int listCount = 1;
+    node<Card> *tempValue = front;
+    while(listCount!=x)
+    {
+        tempValue = tempValue->next;
+        listCount++;
+
+    }
+    tempValue->nodeValue.flip();
+}
+
+bool deck::returnIsFlipped(int x)
+{
+    int listCount = 1;
+    node<Card> *tempValue = front;
+    while(listCount!=x)
+    {
+        tempValue = tempValue->next;
+        listCount++;
+    }
+    return(tempValue->nodeValue.getIsFlipped());
 }
 
 //This function shuffles the deck, randomizing the order of cards while keeping
