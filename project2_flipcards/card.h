@@ -81,10 +81,29 @@ void card::operator=(const card& rhs)
 ostream& operator<< (ostream& ostr, const card& c)
 // Overloading the '<<' operator to be able to cout value and suit.
 {
-	// For some reason the ',' in this line gives an error:
-	// ostr << c.value << ', ' << c.suit << endl;
+	//check what the card value is before printing:
+	switch(c.value)
+	{
+	case 1:
+		cout << "Ace of ";
+		cout << c.suit;
+		break;
+	case 11:
+		cout << "Jack of ";
+		cout << c.suit;
+		break;
+	case 12:
+		cout << "Queen of ";
+		cout << c.suit;
+		break;
+	case 13:
+		cout << "King of ";
+		cout << c.suit;
+		break;
+	default:
+		cout << c.value << " of " << c.suit;
+	} //end switch
 
-	ostr << c.value << c.suit;
 	return ostr;
 }
 

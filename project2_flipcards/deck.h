@@ -14,6 +14,11 @@ class deck
 		deck(int numCards = 52);	//default constructor
 		~deck();			//default destructor
 
+		//these two functions allow you to grab the data from
+		//individual cards in the linked list:
+		int returnCardValue(int x);
+		char returnCardSuit(int x);
+
 		void shuffle();	//randomizes order of the cards
 
 		void replace(card newBottomCard); //puts a new card on bottom of deck
@@ -21,7 +26,7 @@ class deck
 		card deal();	//deals out a card from the top of the deck
 
 		//overloaded << operator:
-		friend ostream& operator<<(ostream &ostr, const deck *deckOut);
+		friend ostream& operator<<(ostream &ostr, const deck &deckOut);
 
 	private:
 		//the deck will be a linked list of card object nodes,
@@ -77,6 +82,36 @@ deck::~deck()
 {
 	delete front;
 	cout<<"done \n";
+}
+
+//Function goes to a specific card in the linked list given by x and returns
+//its value datamember
+int deck::returnCardValue(int x)
+{
+	int cardValue;
+	node<card> *tempValue = front; //temp list equal to front
+
+	for(int i = 1; i != x; i++)
+	{
+		tempValue = tempValue->next;
+	}
+
+	cardValue = tempValue->nodeValue.getValue();
+	return cardValue;
+}
+
+char deck::returnCardSuit(int x)
+{
+	char cardSuit;
+	node<card> *tempValue = front; //temp list equal to front
+
+	for(int i = 1; i != x; i++)
+	{
+		tempValue = tempValue->next;
+	}
+
+	cardSuit = tempValue->nodeValue.getSuit();
+	return cardSuit;
 }
 
 //This function shuffles the deck, randomizing the order of cards while keeping
@@ -180,38 +215,16 @@ void deck::replace(card newBottomCard)
 }
 
 //overloading iostream's << operator to print out the contents of a deck object:
-ostream& operator<<(ostream &ostr, const deck *d)
+ostream& operator<<(ostream &ostr, const deck &d)
 {
-	node<card> *tmpList = d->front;
+	node<card> *tmpList = d.front;
 	
 	int counter = 0; //keeps track of # of cards printed
 
 	//in this for loop, we will be printing the deck in rows of 13:	
 	while(tmpList != NULL)
 	{
-		//check what the card value is before printing:
-		switch(tmpList->nodeValue.getValue())
-		{
-		case 1:
-			cout << "Ace";
-			cout << tmpList->nodeValue.getSuit() << " ";
-			break;
-		case 11:
-			cout << "Jack";
-			cout << tmpList->nodeValue.getSuit() << " ";
-			break;
-		case 12:
-			cout << "Queen";
-			cout << tmpList->nodeValue.getSuit() << " ";
-			break;
-		case 13:
-			cout << "King";
-			cout << tmpList->nodeValue.getSuit() << " ";
-			break;
-		default:
-			cout << tmpList->nodeValue << " ";	
-		} //end switch
-
+		cout << tmpList->nodeValue << ", ";
 		tmpList = tmpList->next; //delete tmpList's front
 
 		//I wanted to do this in a ternary statement, but I needed to
