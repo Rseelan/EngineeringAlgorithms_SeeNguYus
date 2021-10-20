@@ -11,6 +11,8 @@ class card
 public:
 	// Constructor:
 	card(int valIn = 0, char suitIn = 'X');	// Pass default value and suit in
+	
+	card(const card &c1); // Pass card object into copy constructor
 
 	// Member functions:
 	void setValue(int x);	// Set value manually
@@ -18,6 +20,8 @@ public:
 
 	int getValue();		// Returns value of card
 	char getSuit();		// Returns suit of card
+	
+	void operator=(const card &rhs); // Overloaded assignment operator
 
 	// Friend function:
 	friend ostream& operator<< (ostream& ostr, const card& c);
