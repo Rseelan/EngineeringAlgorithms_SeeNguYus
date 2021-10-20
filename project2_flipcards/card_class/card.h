@@ -36,6 +36,13 @@ card::card(int valIn, char suitIn)
 	suit = suitIn;
 }
 
+card::card(const card &c1)
+// Copy constructor takes card object as its parameter.
+{
+    value = c1.value;
+    suit = c1.suit;
+}
+
 void card::setValue(int x)
 // Allows user to manually set value of a card.
 {
@@ -58,6 +65,13 @@ char card::getSuit()
 // Returns suit of a card.
 {
 	return suit;
+}
+
+void card::operator=(const card &rhs)
+// Overloading the assignment operator to be able to create a card object.
+{
+    value = rhs.value;
+    suit = rhs.suit;
 }
 
 ostream& operator<< (ostream& ostr, const card& c)
