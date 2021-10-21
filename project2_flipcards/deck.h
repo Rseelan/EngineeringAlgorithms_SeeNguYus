@@ -18,9 +18,9 @@ class deck
 		//individual cards in the linked list:
 		int returnCardValue(int x);
 		char returnCardSuit(int x);
-		
+       		bool returnIsFlipped(int x); //returns boolean isFlipped from card object
+	
 		void cardFlip(int x);	//flips boolean isFlipped in card object
-       	bool returnIsFlipped(int x); //returns boolean isFlipped from card object
 
 		void shuffle();	//randomizes order of the cards
 
@@ -116,8 +116,7 @@ char deck::returnCardSuit(int x)
 {
 	char cardSuit;
 	node<card> *tempValue = front; //temp list equal to front
-
-	for(int i = 1; i != x; i++)
+	for(int i = 1; i != x; i++)    //Iterate through deck to get to input card
 	{
 		tempValue = tempValue->next;
 	}
@@ -126,6 +125,19 @@ char deck::returnCardSuit(int x)
 	return cardSuit;
 }
 
+bool deck::returnIsFlipped(int x)
+{
+    int listCount = 1;
+    node<card> *tempValue = front;
+    while(listCount!=x)	//Iterate through deck to get to input card
+    {
+        tempValue = tempValue->next;
+        listCount++;
+    }
+    return(tempValue->nodeValue.getIsFlipped());
+}
+
+//This function iterates through the deck and flips the card at the input
 void deck::cardFlip(int x)
 {
     int listCount = 1;
@@ -136,19 +148,7 @@ void deck::cardFlip(int x)
         listCount++;
 
     }
-    tempValue->nodeValue.flip();
-}
-
-bool deck::returnIsFlipped(int x)
-{
-    int listCount = 1;
-    node<card> *tempValue = front;
-    while(listCount!=x)
-    {
-        tempValue = tempValue->next;
-        listCount++;
-    }
-    return(tempValue->nodeValue.getIsFlipped());
+    tempValue->nodeValue.flip(); //Flips card
 }
 
 //This function shuffles the deck, randomizing the order of cards while keeping
