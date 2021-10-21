@@ -30,9 +30,9 @@ public:
 	friend ostream& operator<< (ostream& ostr, const card& c);
 
 private:
-	int value;
-	char suit;
-	bool isFlipped;
+	int value;	//value of card ie Ace, 2, 3,... Jack, Queen, etc.
+	char suit;	//suit of the card, heart, spades, etc.
+	bool isFlipped;	//whether or not the card has been "flipped"
 };
 
 /****************************Function Implementation***************************/
