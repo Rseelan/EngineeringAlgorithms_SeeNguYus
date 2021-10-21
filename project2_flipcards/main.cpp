@@ -131,6 +131,19 @@ void playGame()
 				score++;
 			}
 		}
+		int z = 0;  //counts how many cards are flipped at the end of each turn
+		for(int i = 1; i < 25; i++)
+		{
+		    if(deck2.returnIsFlipped(i) == true)
+		    {
+			z++;
+		    }
+		}
+		if (z == 24)    //ends game once all cards are flipped
+		{
+		    cout << "The game is over. Final score: " << score << endl;
+		    break;
+		}
 	} //end "isPlaying" while loop
 }
 
