@@ -20,7 +20,7 @@ class deck
 		char returnCardSuit(int x);
 		
 		void cardFlip(int x);	//flips boolean isFlipped in card object
-       		bool returnIsFlipped(int x); //returns boolean isFlipped from card object
+       	bool returnIsFlipped(int x); //returns boolean isFlipped from card object
 
 		void shuffle();	//randomizes order of the cards
 
@@ -80,21 +80,22 @@ deck::deck(int numCards)
 	} //end for loop
 }
 
-//default destructor for deck class. Frees memory from *front:
+//default destructor for deck class. Frees memory from *front and *nextCard:
 deck::~deck()
 {
+	// delete front;
 	node<card>* current;
 
-	while (front != NULL)
+    while (front != NULL)
 	{
-        	current = front;
+        current = front;
 		front = front->next;
-       		delete current;
-	}
-	
-	//print out confirmation message:
-	cout<<"done \n";
+        delete current;
+    }
+
+	cout<<"Destructor called \n";
 }
+
 //Function goes to a specific card in the linked list given by x and returns
 //its value datamember
 int deck::returnCardValue(int x)
@@ -207,6 +208,7 @@ void deck::shuffle()
 			temp->next = curr->next;
 			curr->next = temp;
 		prev->next = curr;
+		//prev node ->  curr node -> temp node
 		} //end else
 	} //end for loop
 }
