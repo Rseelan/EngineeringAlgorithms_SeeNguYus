@@ -22,7 +22,7 @@ public:
 	char getSuit();		// Returns suit of card
 	
 	void flip();		// Flips boolean isFlipped
-        bool getIsFlipped();	// returns boolean isFlipped
+    bool getIsFlipped();	// returns boolean isFlipped
 
 	void operator=(const card& rhs); // Overloaded assignment operator
 
@@ -77,13 +77,13 @@ char card::getSuit()
 	return suit;
 }
 
-void Card::flip()
+void card::flip()
 // Flips boolean isFlipped from false to true.
 {
     isFlipped = true;
 }
 
-bool Card::getIsFlipped()
+bool card::getIsFlipped()
 // Returns isFlipped.
 {
     return isFlipped;
