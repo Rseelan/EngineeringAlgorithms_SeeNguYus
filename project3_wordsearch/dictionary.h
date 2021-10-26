@@ -11,13 +11,15 @@ using namespace std;
 class dictionary
 {
     public:
-        dictionary(/* args */);
+        dictionary(string filename);
         //~dictionary();
 
         void readDict(string filename);    //reads dictionary file
+        void sortDict();                   //sorts the dictionary
+        void searchDict();                 //looks up words from the dictionary
 
-        void sortDict();    //sorts the dictionary
-        void searchDict();  //looks up words from the dictionary
+        //overloaded output function:
+        friend ostream& operator<<(ostream& ostr, const dictionary& dict);
 
     private:
         vector<string> words;
@@ -26,12 +28,9 @@ class dictionary
 /****************************Function Implementation***************************/
 
 //constructor
-dictionary::dictionary(/* args */)
+dictionary::dictionary(string filename)
 {
-    readDict("Dictionary");
-
-    //definitely won't do this in the final product:
-    cout << words[0] << endl;
+    readDict(filename);
 }
 
 //destructor?
@@ -40,31 +39,96 @@ dictionary::dictionary(/* args */)
     //stuff...
 //}
 
-//reads data from the dictionary file to store each word into a string vector
-//**used this site for referance: https://www.cplusplus.com/doc/tutorial/files/
-//Right now, I think this doesn't work!
+//reads data from the dictionary file to store each word into a string vector:
 void dictionary::readDict(string filename)
 {
-    ifstream dict(filename);
+    ifstream dict(filename); //open file
+    string tmp;              //create temporary sting to push into vector
+
     int wordNum = 0;
 
     if (dict.is_open())
     {
-        while ( getline (dict, words[wordNum]) )
+        while (!dict.eof())
         {
-            cout << words[wordNum] << '\n';
-        }  
+            dict >> tmp;    
 
+            //append "end line" character to each string in vector so that when
+            //we insert any given word in the vector into a file, it will input
+            //a new line after that word:
+            words.push_back(tmp);
+            words[wordNum].append("\n");    
+
+            wordNum++;
+        }  
+        
         dict.close();
     }
     else cout << "Unable to open file \n";
 }
 
-//sorts the dictionary:
-void dictionary::sortDict(){cout << "Work in Progress \n";}    
+//sorts the dictionary using a selection sort algorithm. This function also 
+//abuses ASCII encoding. Uppercase letters A-Z have ASCII values 65-90, and
+//lowercase letters a-z have values 97-122:
+void dictionary::sortDict()
+{
+    int minIndex = 0;
+
+    string minVal;  //smallest 'value' in list
+    string compVal; //'value' to be compared
+    string swapVal; //'value' to be swapped
+
+    //The algorithm:
+    for (int i = 0; i < words.size(); i++)
+    {
+        /*** Scan for smallest element ***/
+        for (int j = i + 1; j < words.size(); j++)
+        {
+            minVal = words[minIndex];
+            
+            //only executes if the ASCII code of the string in compVal
+            //is smaller than the respective ASCII code of minVal:
+            if(minVal > words[j])
+            {
+                minVal = words[j];
+                minIndex = j;
+            }
+        } //end j-loop
+    
+        /*** swapping! ***/
+        swapVal = words[i];
+
+        //If I don't include this statement, it gives you wrong answers ;-;
+        //This statement makes sure you only swap if minVal is actually smaller
+        //than swapVal, because sometimes this function decides to be wrong...
+        if (swapVal > minVal)
+        {
+            words[i] = minVal;
+            words[minIndex] = swapVal;
+        }
+    } //end for loop
+    
+}    
 
 //looks up words from the dictionary:
 void dictionary::searchDict(){cout << "Work in Progress \n";}  
+
+//overloaded output function. Outputs the words vector into a text file:
+ostream& operator<<(ostream& ostr, const dictionary& dict)
+{
+    ofstream fout("dict-output.txt");
+    fout.clear();
+
+    for(int i = 0; i < (dict.words).size(); i++)
+    {
+        fout << dict.words[i]; //output i element of dictionary words to file
+    }
+
+    fout.close();
+
+    return ostr;
+}
+
 /******************************************************************************/
 
 #endif
