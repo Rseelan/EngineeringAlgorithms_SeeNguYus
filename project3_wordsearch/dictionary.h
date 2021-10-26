@@ -117,24 +117,27 @@ string dictionary::searchDict(string x) //binary search function
     int upper = words.size() - 1;
     while (lower <= upper)
     {
-        int mid = lower + (upper - lower) / 2;  //cuts dictinary vector in half
-        int i;
-        if (x == (words.at(mid)))  //checks if x is at location
+        int mid = lower + ((upper - lower) / 2);  //cuts dictinary vector in half
+        bool i;
+
+        if (x == words[mid])  //checks if x is at location
         {
-            i = 0;
+            i = 1;
         }
-        if (i == 0)
+
+        if (i == 1)
         {
             return x;   //returns x if x is present
         }
-        if (x > (words.at(mid)))   //eliminates lower half if needed
+
+        if (x > words[mid])   //eliminates lower half if needed
         {
             lower = mid + 1;
         }
         else   //eliminates upper half if needed
         {
             upper = mid - 1;
-        }
+        }      
     }
     return "Not present";   //returns "Not present" if x is not present in dictionary
 }
