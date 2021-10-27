@@ -22,7 +22,8 @@ class dictionary
         friend ostream& operator<<(ostream& ostr, const dictionary& dict);
 
     private:
-        vector<string> words;
+        //IMPORTANT!!! Every word in this vector has "\n" at the end!!!!
+        vector<string> words;   
 };
 
 /****************************Function Implementation***************************/
