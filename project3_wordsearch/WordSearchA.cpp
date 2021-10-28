@@ -1,7 +1,7 @@
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <iostream>
 #include <vector>
-#include <cstdlib>
+//#include <cstdlib>
 #include <fstream>
 #include <string>
 #include "grid.h"
@@ -12,10 +12,10 @@ using namespace std;
 int main(){
     grid gridIn("input15.txt");
 
-    string startChar;
+    //string startChar;
     string outputWord;
 
-    vector<string> testvector;
+    //vector<string> testvector;
 
     int numRows = gridIn.letters.rows();
     int numCols = gridIn.letters.cols();
@@ -25,31 +25,30 @@ int main(){
     int counterX;
     int counterY;
 
-    for (int i = 0; i<numRows; i++){
+    // for (int i = 0; i<numRows; i++){
 
-        testvector.push_back("c");
+    //     testvector.push_back("c");
 
-    }
-
+    // }
+    
     //start at each character in the grid
     for (int row = 0; row < numRows; row++){
-
-        cout<<"seperate row"<<endl;
-
         for (int col = 0; col < numCols; col++){
 
             //improved algo for going down right - diagonal
-            cout<<"Going down right"<<endl;
+            //cout<<"Going down right"<<endl;
+
+            outputWord = "";
+
             counterX = row;
             counterY = col;
             counter = 0;
-
+            
             while (counter < numRows){
 
                 //testvector[counter] = gridIn.letters[counterX][counterY];
                 //cout<<testvector[counter]<<endl;
                 outputWord += gridIn.letters[counterX][counterY];
-                cout << outputWord << endl;
 
                 counter++;
                 counterX++;
@@ -65,11 +64,11 @@ int main(){
 
                 }
 
-                //arbid  -edit this
-                // if (outputWord.size() > 4)
-                //     cout << outputWord << endl;
+                if (outputWord.size() > 4)
+                    cout << outputWord << endl;
             }
 
+            /*
             //going down left - diagonal
             cout<<"going down left"<<endl;
             counterX = row;
@@ -288,8 +287,9 @@ int main(){
 
             }
             cout<<endl;
+            */
         }
-        cout<<endl;
+        cout << endl;
     }
     return 0;
 }
