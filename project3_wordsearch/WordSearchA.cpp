@@ -1,7 +1,5 @@
-//#include <stdlib.h>
 #include <iostream>
 #include <vector>
-//#include <cstdlib>
 #include <fstream>
 #include <string>
 #include "grid.h"
@@ -10,12 +8,9 @@ using namespace std;
 
 
 int main(){
-    grid gridIn("input15.txt");
+    grid gridIn("input15.txt"); //create a new grid object
 
-    //string startChar;
-    string outputWord;
-
-    //vector<string> testvector;
+    string outputWord;  //words to be outputted
 
     int numRows = gridIn.letters.rows();
     int numCols = gridIn.letters.cols();
@@ -24,49 +19,37 @@ int main(){
     int temp2;
     int counterX;
     int counterY;
-
-    // for (int i = 0; i<numRows; i++){
-
-    //     testvector.push_back("c");
-
-    // }
     
     //start at each character in the grid
-    for (int row = 0; row < numRows; row++){
-        for (int col = 0; col < numCols; col++){
-
-            //improved algo for going down right - diagonal
-            //cout<<"Going down right"<<endl;
-
+    for (int row = 0; row < numRows; row++)
+    {
+        for (int col = 0; col < numCols; col++)
+        {
+            /*******improved algo for going down right - diagonal*******/
             outputWord = "";
 
             counterX = row;
             counterY = col;
             counter = 0;
             
-            while (counter < numRows){
-
-                //testvector[counter] = gridIn.letters[counterX][counterY];
-                //cout<<testvector[counter]<<endl;
+            while (counter < numRows)
+            {
                 outputWord += gridIn.letters[counterX][counterY];
 
                 counter++;
                 counterX++;
                 counterY++;
 
-                if (counterX == numRows){
+                if (counterX == numRows)
                     counterX = 0;
 
-                }
-
-                if (counterY == numCols){
+                if (counterY == numCols)
                     counterY = 0;
-
-                }
 
                 if (outputWord.size() > 4)
                     cout << outputWord << endl;
             }
+            /***********************************************************/
 
             /*
             //going down left - diagonal
