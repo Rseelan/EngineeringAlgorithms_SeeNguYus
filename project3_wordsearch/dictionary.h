@@ -16,14 +16,13 @@ class dictionary
 
         void readDict(string filename);    //reads dictionary file
         void sortDict();                   //sorts the dictionary
-        void searchDict(string x);                 //looks up words from the dictionary
+        string searchDict(string x);                 //looks up words from the dictionary
 
         //overloaded output function:
         friend ostream& operator<<(ostream& ostr, const dictionary& dict);
 
     private:
-        //IMPORTANT!!! Every word in this vector has "\n" at the end!!!!
-        vector<string> words;   
+        vector<string> words;
 };
 
 /****************************Function Implementation***************************/
@@ -112,10 +111,11 @@ void dictionary::sortDict()
 }    
 
 //looks up words from the dictionary:
-string dictionary::searchDict(string x) //binary search function
+string dictionary::searchDict(string x)
 {
     int lower = 0;
     int upper = words.size() - 1;
+
     while (lower <= upper)
     {
         int mid = lower + ((upper - lower) / 2);  //cuts dictinary vector in half
@@ -141,8 +141,7 @@ string dictionary::searchDict(string x) //binary search function
         }      
     }
     return "Not present";   //returns "Not present" if x is not present in dictionary
-}
-  
+}  
 
 //overloaded output function. Outputs the words vector into a text file:
 ostream& operator<<(ostream& ostr, const dictionary& dict)
