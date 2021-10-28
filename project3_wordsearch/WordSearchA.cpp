@@ -51,226 +51,169 @@ int main(){
             }
             /***********************************************************/
 
-            /*
-            //going down left - diagonal
-            cout<<"going down left"<<endl;
+            /*******improved algo for going down left - diagonal********/
+            outputWord = "";
+            
             counterX = row;
             counterY = col;
             counter = 0;
 
-            while (counter < numRows){
-
-                testvector[counter] = gridIn.letters[counterX][counterY];
-                cout<<testvector[counter]<<endl;
+            while (counter < numRows)
+            {
+                outputWord += gridIn.letters[counterX][counterY];
 
                 counter++;
                 counterX++;
                 counterY--;
 
-                if (counterX == numRows){
+                if (counterX == numRows)
                     counterX = 0;
 
-                }
-
-                if (counterY == -1){
+                if (counterY == -1)
                     counterY = numCols - 1;
 
-                }
-
-                //arbid  -edit this
-                // if (counter > 4){
-                //     for (int f = 0; f<counter; f++){
-                //         cout<<testvector[f]<<endl;
-                //     }
-                //     cout<<endl;
-                // }
-
+                if (outputWord.size() > 4)
+                    cout << outputWord << endl;
             }
-            
+            /***********************************************************/        
 
-           //going up left
-            cout<<"Going up left"<<endl;
+            /********improved algo for going up left - diagonal*********/
+            outputWord = "";
+            
             counterX = row;
             counterY = col;
             counter = 0;
 
-            while (counter < numRows){
-
-                testvector[counter] = gridIn.letters[counterX][counterY];
-                cout<<testvector[counter]<<endl;
+            while (counter < numRows)
+            {
+                outputWord += gridIn.letters[counterX][counterY];
 
                 counter++;
                 counterX--;
                 counterY--;
 
-                if (counterX == -1){
+                if (counterX == -1)
                     counterX = numRows - 1;
 
-                }
-
-                if (counterY == -1){
+                if (counterY == -1)
                     counterY = numCols - 1;
-
-                }
-
-                //arbid  -edit this
-                // if (counter > 4){
-                //     for (int f = 0; f<counter; f++){
-                //         cout<<testvector[f]<<endl;
-                //     }
-                //     cout<<endl;
-                // }
-
+                
+                if (outputWord.size() > 4)
+                    cout << outputWord << endl;
             }
+            /***********************************************************/            
+          
+            /********improved algo for going up right -ndiagonal********/
+            outputWord = "";
             
-           //going up right
-            cout<<"Going up right"<<endl;
             counterX = row;
             counterY = col;
             counter = 0;
 
-            while (counter < numRows){
-
-                testvector[counter] = gridIn.letters[counterX][counterY];
-                cout<<testvector[counter]<<endl;;
+            while (counter < numRows)
+            {
+                outputWord += gridIn.letters[counterX][counterY];
 
                 counter++;
                 counterX--;
                 counterY++;
 
-                if (counterX == -1){
+                if (counterX == -1)
                     counterX = numRows - 1;
 
-                }
-
-                if (counterY == numCols){
+                if (counterY == numCols)
                     counterY = 0;
-
-                }
-
-                //arbid  -edit this
-                // if (counter > 4){
-                //     for (int f = 0; f<counter; f++){
-                //         cout<<testvector[f]<<endl;
-                //     }
-                //     cout<<endl;
-                // }
-
+                
+                if (outputWord.size() > 4)
+                    cout << outputWord << endl;
             }
-
-            //going right - improved
-            cout<<"Going right"<<endl;
+            /***********************************************************/
+            
+            /***************improved algo for going right***************/
+            outputWord = "";
+            
             counterY = col;
             counter = 0;
 
-            while (counter < numRows){
-
-                testvector[counter] = gridIn.letters[row][counterY];
-                cout<<testvector[counter]<<endl;;
+            while (counter < numRows)
+            {
+                outputWord += gridIn.letters[counterX][counterY];
 
                 counter++;
                 counterY++;
 
-                if (counterY == numCols){
+                if (counterY == numCols)
                     counterY = 0;
 
-                }
-
-                //arbid  -edit this
-                // if (counter > 4){
-                //     for (int f = 0; f<counter; f++){
-                //         cout<<testvector[f]<<endl;
-                //     }
-                //     cout<<endl;
-                // }
-
+                if (outputWord.size() > 4)
+                    cout << outputWord << endl;
             }
+            /***********************************************************/
 
-            //going left - improved
-            cout<<"Going left"<<endl;
+            /***************improved algo for going left****************/
+            outputWord = "";
+            
             counterY = col;
             counter = 0;
 
-            while (counter < numRows){
-
-                testvector[counter] = gridIn.letters[row][counterY];
-                cout<<testvector[counter]<<endl;;
+            while (counter < numRows)
+            {
+                outputWord += gridIn.letters[counterX][counterY];
 
                 counter++;
                 counterY--;
 
-                if (counterY == -1){
+                if (counterY == -1)
                     counterY = numCols - 1;
 
-                }
-
-                //arbid  -edit this
-                // if (counter > 4){
-                //     for (int f = 0; f<counter; f++){
-                //         cout<<testvector[f]<<endl;
-                //     }
-                //     cout<<endl;
-                // }
-
+                if (outputWord.size() > 4)
+                    cout << outputWord << endl;
             }
+            /***********************************************************/
 
-            //going up
-            cout<<"Going up"<<endl;
+            /****************improved algo for going up*****************/
+            outputWord = "";
+            
             counterX = row;
             counter = 0;
 
-            while (counter < numRows){
-
-                testvector[counter] = gridIn.letters[counterX][col];
-                cout<<testvector[counter]<<endl;;
+            while (counter < numRows)
+            {
+                outputWord += gridIn.letters[counterX][counterY];
 
                 counter++;
                 counterX--;
 
                 if (counterX == -1){
                     counterX = numRows - 1;
-
-                }
-
-                //arbid edit this
-                // if (counter > 4){
-                //     for (int f = 0; f<counter; f++){
-                //         cout<<testvector[f]<<endl;
-                //     }
-                //     cout<<endl;
-                // }
-
+                    
+                if (outputWord.size() > 4)
+                    cout << outputWord << endl;
             }
+            /***********************************************************/
 
-            //going down
-            cout<<"Going down"<<endl;
+            /***************improved algo for going down****************/
+            outputWord = "";
+                
             counterX = row;
             counter = 0;
 
-            while (counter < numRows){
+            while (counter < numRows)
+            {
 
-                testvector[counter] = gridIn.letters[counterX][col];
-                cout<<testvector[counter]<<endl;;
+                outputWord += gridIn.letters[counterX][counterY];
 
                 counter++;
                 counterX++;
 
-                if (counterX == numRows){
+                if (counterX == numRows)
                     counterX = 0;
-
-                }
-
-                //arbid edit this
-                // if (counter > 4){
-                //     for (int f = 0; f<counter; f++){
-                //         cout<<testvector[f]<<endl;
-                //     }
-                //     cout<<endl;
-                // }
-
+                
+                if (outputWord.size() > 4)
+                    cout << outputWord << endl;
             }
             cout<<endl;
-            */
+            /***********************************************************/
         }
         cout << endl;
     }
