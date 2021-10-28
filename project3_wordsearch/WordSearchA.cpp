@@ -8,7 +8,10 @@ using namespace std;
 
 
 int main(){
+
+
     grid gridIn("input15.txt"); //create a new grid object
+    ofstream MyFile("CandidateWords.txt");
 
     string outputWord;  //words to be outputted
 
@@ -40,14 +43,28 @@ int main(){
                 counterX++;
                 counterY++;
 
-                if (counterX == numRows)
+                if (counterX == numRows){
+
                     counterX = 0;
 
-                if (counterY == numCols)
+                }
+                    
+
+                if (counterY == numCols){
+
                     counterY = 0;
 
-                if (outputWord.size() > 4)
+                }
+                    
+
+                if (outputWord.size() > 4){
+
                     cout << outputWord << endl;
+                    MyFile << outputWord<<"\n";
+
+
+                }
+                    
             }
             /***********************************************************/
 
@@ -72,8 +89,13 @@ int main(){
                 if (counterY == -1)
                     counterY = numCols - 1;
 
-                if (outputWord.size() > 4)
+                if (outputWord.size() > 4){
+
                     cout << outputWord << endl;
+                    MyFile << outputWord<<"\n";
+
+
+                }
             }
             /***********************************************************/        
 
@@ -98,8 +120,13 @@ int main(){
                 if (counterY == -1)
                     counterY = numCols - 1;
                 
-                if (outputWord.size() > 4)
+                if (outputWord.size() > 4){
+
                     cout << outputWord << endl;
+                    MyFile << outputWord<<"\n";
+
+
+                }
             }
             /***********************************************************/            
           
@@ -124,8 +151,13 @@ int main(){
                 if (counterY == numCols)
                     counterY = 0;
                 
-                if (outputWord.size() > 4)
+                if (outputWord.size() > 4){
+
                     cout << outputWord << endl;
+                    MyFile << outputWord<<"\n";
+
+
+                }
             }
             /***********************************************************/
             
@@ -145,8 +177,13 @@ int main(){
                 if (counterY == numCols)
                     counterY = 0;
 
-                if (outputWord.size() > 4)
+                if (outputWord.size() > 4){
+
                     cout << outputWord << endl;
+                    MyFile << outputWord<<"\n";
+
+
+                }
             }
             /***********************************************************/
 
@@ -166,8 +203,13 @@ int main(){
                 if (counterY == -1)
                     counterY = numCols - 1;
 
-                if (outputWord.size() > 4)
+                if (outputWord.size() > 4){
+
                     cout << outputWord << endl;
+                    MyFile << outputWord<<"\n";
+
+
+                }
             }
             /***********************************************************/
 
@@ -187,8 +229,13 @@ int main(){
                 if (counterX == -1){
                     counterX = numRows - 1;
                     
-                if (outputWord.size() > 4)
+                if (outputWord.size() > 4){
+
                     cout << outputWord << endl;
+                    MyFile << outputWord<<"\n";
+
+
+                }
             }
             /***********************************************************/
 
@@ -209,13 +256,22 @@ int main(){
                 if (counterX == numRows)
                     counterX = 0;
                 
-                if (outputWord.size() > 4)
+                if (outputWord.size() > 4){
+
                     cout << outputWord << endl;
+                    MyFile << outputWord<<"\n";
+
+
+                }
             }
             cout<<endl;
             /***********************************************************/
         }
         cout << endl;
     }
+
+    }
+
+    MyFile.close();
     return 0;
 }
