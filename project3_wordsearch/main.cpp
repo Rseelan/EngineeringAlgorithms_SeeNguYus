@@ -578,14 +578,22 @@ void search(){
 
 int main()
 {
-    /*grid testGrid("input15.txt");
-    dictionary myDict("test-dict.txt");
-    myDict.sortDict();
+    //grid testGrid1("input15.txt");
+    //grid testGrid2("input30.txt");
+    //grid testGrid3("input50.txt");
 
-    findMatches(myDict, testGrid);
-    */
+    dictionary myDict("Dictionary");
+    int dictlength = myDict.getLength();
+    //myDict.selectSort();
+    myDict.quickSort(0, dictlength - 1);
 
-    search();
+    cout << myDict << endl;
+
+    //findMatches(myDict, testGrid1);
+    //findMatches(myDict, testGrid2);
+    //findMatches(myDict, testGrid3);
+
+    //search();
     
     return 0;
 }

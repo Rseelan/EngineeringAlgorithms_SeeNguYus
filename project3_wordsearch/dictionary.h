@@ -12,18 +12,24 @@ class dictionary
 {
     public:
         dictionary(string filename);
-        //~dictionary();
 
-        void readDict(string filename);    //reads dictionary file
-        void sortDict();                   //sorts the dictionary
-        void searchDict(string x);                 //looks up words from the dictionary
+        void readDict(string filename); //reads dictionary file
+        
+        //sorting algorithms:
+        void selectSort();
+        void quickSort(int left, int right);
+
+        int getLength();    //gets length of the dictionary
+
+        string searchDict(string x);    //looks up words from the dictionary
 
         //overloaded output function:
         friend ostream& operator<<(ostream& ostr, const dictionary& dict);
 
     private:
-        //IMPORTANT!!! Every word in this vector has "\n" at the end!!!!
-        vector<string> words;   
+        vector<string> words;
+
+        int partition(int sublist, int pivot);  //ONLY used in quicksort func
 };
 
 /****************************Function Implementation***************************/
@@ -33,12 +39,6 @@ dictionary::dictionary(string filename)
 {
     readDict(filename);
 }
-
-//destructor?
-//dictionary::~dictionary()
-//{
-    //stuff...
-//}
 
 //reads data from the dictionary file to store each word into a string vector:
 void dictionary::readDict(string filename)
@@ -71,7 +71,7 @@ void dictionary::readDict(string filename)
 //sorts the dictionary using a selection sort algorithm. This function also 
 //abuses ASCII encoding. Uppercase letters A-Z have ASCII values 65-90, and
 //lowercase letters a-z have values 97-122:
-void dictionary::sortDict()
+void dictionary::selectSort()
 {
     int minIndex = 0;
 
@@ -107,15 +107,65 @@ void dictionary::sortDict()
             words[i] = minVal;
             words[minIndex] = swapVal;
         }
-    } //end for loop
-    
+    } //end for loop   
 }    
 
+
+//returns the total number of words inside the dictionary's words vector:
+int dictionary::getLength()
+{
+    return words.size();
+}
+
+//Private member function. SHhould only ever be used inside the quicksort func
+//Used inside quick sort for partitioning the vector. Sublist integer refers
+// to the last value in the left sublist created by the function
+int dictionary::partition(int sublist, int pivot)
+{
+    int i = sublist - 1;
+    // int i = sublist;
+
+    string swap;    //variable used for swapping
+
+    for(int j = sublist; j < pivot; j++)
+        if(words[j] <= words[pivot])
+        {
+            i++;
+
+            //swapping is the same as in selection sort
+            swap = words[j];
+            words[j] = words[i];
+            words[i] = swap;
+        }   
+
+    swap = words[i + 1];
+    words[i + 1] = words[pivot];
+    words[pivot] = swap;
+
+    return i + 1;
+}
+
+//sort dictionary using Quick Sort. Pivot is always rightmost value
+void dictionary::quickSort(int left, int right)
+{
+    int s;  //refers to index where left and right sides of the list are seperated
+
+    if(left < right)
+    {
+        s = partition(left, right);
+        quickSort(left, s - 1);
+        quickSort(s + 1, right);
+    }
+}
+
+
+
 //looks up words from the dictionary:
-string dictionary::searchDict(string x) //binary search function
+string dictionary::searchDict(string x)
 {
     int lower = 0;
     int upper = words.size() - 1;
+
     while (lower <= upper)
     {
         int mid = lower + ((upper - lower) / 2);  //cuts dictinary vector in half
@@ -141,8 +191,7 @@ string dictionary::searchDict(string x) //binary search function
         }      
     }
     return "Not present";   //returns "Not present" if x is not present in dictionary
-}
-  
+}  
 
 //overloaded output function. Outputs the words vector into a text file:
 ostream& operator<<(ostream& ostr, const dictionary& dict)
