@@ -304,8 +304,8 @@ void findMatches(dictionary dict, grid gridIn)
     matching.close();
 }
 
-void search(){
-
+void search()
+{
     string filename;
     cout<<"Please enter a filename for a grid you'd like to parse for words: "<<endl;
     cin>>filename;
@@ -576,6 +576,36 @@ void search(){
 
 }
 
+void searchNew(int slct, dictionary dict)
+{
+    string filename;
+
+    switch(slct)
+    {
+	case 0:
+	    dict.selectSort();
+	    break;
+	    
+	case 1:
+	    dict.quickSort(0, dict.getLength() - 1);
+	    break;
+
+	case 2:
+	    cout << "heap sort coming soon \n";
+	    break;
+
+	default:
+	    cout << "Please pass a proper select value \n";
+	    return;
+    }
+
+    cout<<"Please enter a filename for a grid you'd like to parse for words: "<<endl;
+    cin>>filename;
+
+    grid gridIn(filename); //create a new grid object
+    findMatches(dict, gridIn);
+}
+
 int main()
 {
     //grid testGrid1("input15.txt");
@@ -583,11 +613,15 @@ int main()
     //grid testGrid3("input50.txt");
 
     dictionary myDict("Dictionary");
-    int dictlength = myDict.getLength();
-    //myDict.selectSort();
-    myDict.quickSort(0, dictlength - 1);
+    int slct;	//used for selecting which search algorithm to use
 
-    cout << myDict << endl;
+    cout<<"Which search algorithm would you like to use? \n";
+    cin >> slct;
+
+	searchNew(slct, myDict);
+
+    //myDict.selectSort();
+    //myDict.quickSort(0, dictlength - 1);
 
     //findMatches(myDict, testGrid1);
     //findMatches(myDict, testGrid2);
