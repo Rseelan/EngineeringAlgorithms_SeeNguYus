@@ -80,6 +80,19 @@ class Heap{
             }
 
         }
+    
+        void heapsort(vector <int> arr, int n)
+        {
+            for (int i = n / 2 - 1; i >= 0; i--)
+            {
+                maxHeapify(arr, n, i);
+            }
+            for (int i=n-1; i>=0; i--)
+            {
+                swap(arr[0], arr[i]);
+                maxHeapify(arr, i, 0);
+            }
+        }
 
     private:
 
