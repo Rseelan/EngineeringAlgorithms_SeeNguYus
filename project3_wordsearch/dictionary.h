@@ -49,31 +49,35 @@ class Heap{
 
 //returns the parent index
 template <typename T>
-int Heap<T>::parent(int n){
+int Heap<T>::parent(int n)
+{
 
-    return (n)/2;
+    return (n) / 2;
 
 }
 
 //returns the left leaf index
 template <typename T>
-int Heap<T>::left(int n){
+int Heap<T>::left(int n)
+{
 
-    return n*2 + 1;
+    return (n * 2) + 1;
 
 }
 
 //returns the right leaf index
 template <typename T>
-int Heap<T>::right(int n){
+int Heap<T>::right(int n)
+{
 
-    return (n*2)+2;
+    return (n * 2) + 2;
 
 }
 
 //returns the item in the heap given an index
 template <typename T>
-int Heap<T>::getItem(int n){
+int Heap<T>::getItem(int n)
+{
 
     return heapArray[n];
 
@@ -81,7 +85,8 @@ int Heap<T>::getItem(int n){
 
 //heapfiy function that uses recursion for swapping of nodes to make sure max heap property is met
 template <typename T>
-void Heap<T>::Max_Heapify(vector<T> &A, int heapsize, int i){
+void Heap<T>::Max_Heapify(vector<T> &A, int heapsize, int i)
+{
 
     //set largest node to the given index
     int largest = i;
@@ -94,21 +99,24 @@ void Heap<T>::Max_Heapify(vector<T> &A, int heapsize, int i){
     r = right(i);
 
     //If left child is larger than root
-    if ((l < heapsize) && (A[l] > A[largest])){
+    if ((l < heapsize) && (A[l] > A[largest]))
+    {
 
         largest = l;
 
     }
 
     //if right child is larger than root
-    if ((r < heapsize) && (A[r] > A[largest])){
+    if ((r < heapsize) && (A[r] > A[largest]))
+    {
 
         largest = r;
 
     }
 
     //if largest is not root
-    if (largest != i){
+    if (largest != i)
+    {
 
         temp = A[i];
         A[i] = A[largest];
@@ -123,12 +131,14 @@ void Heap<T>::Max_Heapify(vector<T> &A, int heapsize, int i){
 
 //Build heap
 template <typename T>
-void Heap<T>::buildMaxHeap(vector<T> &A, int heapsize){
+void Heap<T>::buildMaxHeap(vector<T> &A, int heapsize)
+{
 
     //set starting point of for loop to what size of the vector is
     int a = A.size();
 
-    for (int i = (heapsize/2)-1; i >= 0; i--){
+    for (int i = (heapsize / 2) - 1; i >= 0; i--)
+    {
 
         //call on max_heapify function
         Max_Heapify(A, heapsize, i);
@@ -140,7 +150,8 @@ void Heap<T>::buildMaxHeap(vector<T> &A, int heapsize){
 
 //sorting algorithm for heaps
 template <typename T>
-void Heap<T>::heapsort(vector <T> &A, int heapsize){
+void Heap<T>::heapsort(vector <T> &A, int heapsize)
+{
 
     //build heap
     buildMaxHeap(A, heapsize);
@@ -149,7 +160,8 @@ void Heap<T>::heapsort(vector <T> &A, int heapsize){
     T temp;
 
 
-    for (int i = heapsize-1; i > 0; i--){
+    for (int i = heapsize - 1; i > 0; i--)
+    {
         
         //swap A[0] with A[i]
         temp = A[0];
@@ -166,7 +178,8 @@ void Heap<T>::heapsort(vector <T> &A, int heapsize){
 
 //call on the heap sorting algorithm and print out results
 template <typename T>
-void Heap<T>::InitializeMaxHeap(vector <T> & list){
+void Heap<T>::InitializeMaxHeap(vector <T> & list)
+{
 
 
     int heapSize = list.size();
@@ -182,9 +195,10 @@ void Heap<T>::InitializeMaxHeap(vector <T> & list){
 
 //print out contents of heap
 template <typename T>
-void Heap<T>::printarray(vector <T> A, int heapsize){
+void Heap<T>::printarray(vector <T> A, int heapsize)
+{
             
-    for (int i = 0; i< heapsize; i++){
+    for (int i = 0; i < heapsize; i++){
         cout<<"New Array is "<<A[i]<<endl;
     }
 
