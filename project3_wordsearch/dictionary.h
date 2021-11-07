@@ -8,6 +8,166 @@
 
 using namespace std;
 
+template <typename T>
+class Heap{
+
+    public:
+
+        int parent(int n);
+
+        int left(int n);
+
+        int right(int n);
+
+        int getItem(int n);
+
+        void Max_Heapify(vector<T> &A, int heapsize, int i);
+
+        void buildMaxHeap(vector<T> &A, int heapsize);
+
+        void heapsort(vector <T> &A, int heapsize);
+
+        void InitializeMaxHeap(vector <T> sample);
+
+        void printarray(vector <T> A, int heapsize);
+
+
+    private:
+
+        vector<int> heapArray;
+
+        int heapsize = 0;
+
+        //actualy used
+        int l,r;
+
+};
+
+template <typename T>
+int Heap<T>::parent(int n){
+
+    return (n)/2;
+
+}
+
+template <typename T>
+int Heap<T>::left(int n){
+
+    return n*2 + 1;
+
+}
+
+template <typename T>
+int Heap<T>::right(int n){
+
+    return (n*2)+2;
+
+}
+
+template <typename T>
+int Heap<T>::getItem(int n){
+
+    return heapArray[n];
+
+}
+
+template <typename T>
+void Heap<T>::Max_Heapify(vector<T> &A, int heapsize, int i){
+
+    int largest = i;
+    T temp;
+    
+    l = left(i);
+    r = right(i);
+
+    if ((l < heapsize) && (A[l] > A[largest])){
+
+        largest = l;
+
+    }
+
+
+    if ((r < heapsize) && (A[r] > A[largest])){
+
+        largest = r;
+
+    }
+
+    if (largest != i){
+
+        temp = A[i];
+        A[i] = A[largest];
+        A[largest] = temp;
+        Max_Heapify(A, heapsize, largest);
+
+    }
+
+}
+
+template <typename T>
+void Heap<T>::buildMaxHeap(vector<T> &A, int heapsize){
+
+    int a = A.size();
+
+    for (int i = (heapsize/2)-1; i >= 0; i--){
+
+        Max_Heapify(A, heapsize, i);
+        cout<<"Iterate: "<<i<<endl;
+
+    }
+
+}
+
+template <typename T>
+void Heap<T>::heapsort(vector <T> &A, int heapsize){
+
+    buildMaxHeap(A, heapsize);
+
+    T temp;
+
+    for (int i = heapsize-1; i > 0; i--){
+        cout<<"Iterate is b"<<i<<endl;
+        temp = A[0];
+        A[0] = A[i];
+        A[i] = temp;
+
+        Max_Heapify(A, i, 0);
+
+    }
+
+    cout<<"Check1"<<endl;
+
+}
+
+template <typename T>
+void InitializeMaxHeap(vector <T> sample){
+
+    //vector <int> sample = {12, 11, 13, 5, 6, 7};
+    //vector <string> sample = {"j", "a", "U", "O", "ba", "bb", "v"};
+
+    //create sample vector for heap stuff
+
+    int heapSize = sample.size();
+
+    //buildMaxHeap(sample);
+    heapsort(sample, heapSize);
+    cout<<"Check2"<<endl;
+    printarray(sample, heapSize);
+
+    //build max heap
+
+}
+
+template <typename T>
+void Heap<T>::printarray(vector <T> A, int heapsize){
+            
+    for (int i = 0; i< heapsize; i++){
+        cout<<"New Array is "<<A[i]<<endl;
+    }
+
+}
+
+
 class dictionary
 {
     public:
@@ -26,7 +186,10 @@ class dictionary
         //overloaded output function:
         friend ostream& operator<<(ostream& ostr, const dictionary& dict);
 
+        void HeapSortWrapper();
+
     private:
+
         vector<string> words;
 
         int partition(int sublist, int pivot);  //ONLY used in quicksort func
@@ -207,6 +370,17 @@ ostream& operator<<(ostream& ostr, const dictionary& dict)
     fout.close();
 
     return ostr;
+}
+
+void dictionary::HeapSortWrapper(){
+
+    //copy our old dictionary to sample
+    //vector <string> sample = words;
+
+
+    Heap<string> heap1;
+    heap1.InitializeMaxHeap(words);
+
 }
 
 /******************************************************************************/
