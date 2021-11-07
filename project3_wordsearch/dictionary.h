@@ -13,6 +13,7 @@ class Heap{
 
     public:
 
+        //function declarations
         int parent(int n);
 
         int left(int n);
@@ -21,28 +22,32 @@ class Heap{
 
         int getItem(int n);
 
+
+        //functions regarding sorting of heap
         void Max_Heapify(vector<T> &A, int heapsize, int i);
 
         void buildMaxHeap(vector<T> &A, int heapsize);
 
         void heapsort(vector <T> &A, int heapsize);
 
-        void InitializeMaxHeap(vector <T> sample);
+        void InitializeMaxHeap(vector <T> & sample);
 
+
+        //print out contents of vector
         void printarray(vector <T> A, int heapsize);
 
 
     private:
 
-        vector<int> heapArray;
+        vector<T> heapArray;
 
         int heapsize = 0;
 
-        //actualy used
         int l,r;
 
 };
 
+//returns the parent index
 template <typename T>
 int Heap<T>::parent(int n){
 
@@ -50,6 +55,7 @@ int Heap<T>::parent(int n){
 
 }
 
+//returns the left leaf index
 template <typename T>
 int Heap<T>::left(int n){
 
@@ -57,6 +63,7 @@ int Heap<T>::left(int n){
 
 }
 
+//returns the right leaf index
 template <typename T>
 int Heap<T>::right(int n){
 
@@ -64,6 +71,7 @@ int Heap<T>::right(int n){
 
 }
 
+//returns the item in the heap given an index
 template <typename T>
 int Heap<T>::getItem(int n){
 
@@ -71,93 +79,108 @@ int Heap<T>::getItem(int n){
 
 }
 
+//heapfiy function that uses recursion for swapping of nodes to make sure max heap property is met
 template <typename T>
 void Heap<T>::Max_Heapify(vector<T> &A, int heapsize, int i){
 
+    //set largest node to the given index
     int largest = i;
+
+    //depending on the datatype, temp is used in the swapping of two nodes
     T temp;
     
+
     l = left(i);
     r = right(i);
 
+    //If left child is larger than root
     if ((l < heapsize) && (A[l] > A[largest])){
 
         largest = l;
 
     }
 
-
+    //if right child is larger than root
     if ((r < heapsize) && (A[r] > A[largest])){
 
         largest = r;
 
     }
 
+    //if largest is not root
     if (largest != i){
 
         temp = A[i];
         A[i] = A[largest];
         A[largest] = temp;
+
+        //Recursively call on the max_heapify function to make sure the sub tree meets the max heap property
         Max_Heapify(A, heapsize, largest);
 
     }
 
 }
 
+//Build heap
 template <typename T>
 void Heap<T>::buildMaxHeap(vector<T> &A, int heapsize){
 
+    //set starting point of for loop to what size of the vector is
     int a = A.size();
 
     for (int i = (heapsize/2)-1; i >= 0; i--){
 
+        //call on max_heapify function
         Max_Heapify(A, heapsize, i);
-        cout<<"Iterate: "<<i<<endl;
+
 
     }
 
 }
 
+//sorting algorithm for heaps
 template <typename T>
 void Heap<T>::heapsort(vector <T> &A, int heapsize){
 
+    //build heap
     buildMaxHeap(A, heapsize);
 
+    //variable used for swapping of data depends on what datatype is specified
     T temp;
 
+
     for (int i = heapsize-1; i > 0; i--){
-        cout<<"Iterate is b"<<i<<endl;
+        
+        //swap A[0] with A[i]
         temp = A[0];
         A[0] = A[i];
         A[i] = temp;
 
+        //Call on Max_Heapify function
         Max_Heapify(A, i, 0);
 
     }
 
-    cout<<"Check1"<<endl;
 
 }
 
+//call on the heap sorting algorithm and print out results
 template <typename T>
-void InitializeMaxHeap(vector <T> sample){
+void Heap<T>::InitializeMaxHeap(vector <T> & list){
 
-    //vector <int> sample = {12, 11, 13, 5, 6, 7};
-    //vector <string> sample = {"j", "a", "U", "O", "ba", "bb", "v"};
 
-    //create sample vector for heap stuff
+    int heapSize = list.size();
 
-    int heapSize = sample.size();
+    //sort a list
+    heapsort(list, heapSize);
 
-    //buildMaxHeap(sample);
-    heapsort(sample, heapSize);
-    cout<<"Check2"<<endl;
-    printarray(sample, heapSize);
+    //print heap
+    printarray(list, heapSize);
 
-    //build max heap
 
 }
 
+//print out contents of heap
 template <typename T>
 void Heap<T>::printarray(vector <T> A, int heapsize){
             
@@ -178,6 +201,7 @@ class dictionary
         //sorting algorithms:
         void selectSort();
         void quickSort(int left, int right);
+        void HeapSortWrapper();
 
         int getLength();    //gets length of the dictionary
 
@@ -186,7 +210,6 @@ class dictionary
         //overloaded output function:
         friend ostream& operator<<(ostream& ostr, const dictionary& dict);
 
-        void HeapSortWrapper();
 
     private:
 
@@ -372,14 +395,15 @@ ostream& operator<<(ostream& ostr, const dictionary& dict)
     return ostr;
 }
 
+//sort dictionary using heapsort
 void dictionary::HeapSortWrapper(){
 
-    //copy our old dictionary to sample
-    //vector <string> sample = words;
-
-
+    //copy our old dictionary to heaplist - this is currently unsorted
+    vector <string> heaplist = words;
+    
+    //Instantiate a heap object and make sure it contains strings
     Heap<string> heap1;
-    heap1.InitializeMaxHeap(words);
+    heap1.InitializeMaxHeap(heaplist);
 
 }
 
