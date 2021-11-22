@@ -385,6 +385,6 @@ int main()
       b1.PrintConflicts();
 	   b1.print();
       
+      b1.IsSolved();
    }
-   b1.IsSolved();
 }
