@@ -43,6 +43,7 @@ class board
       void PrintConflicts();
       void setCell(int i, int j, ValueType input);
       void clearCell(int i, int j);
+      bool IsSolved();
       
    private:
 
@@ -330,6 +331,24 @@ void board::PrintConflicts(){
 
 }
 
+bool board::IsSolved()
+// Returns true if the entire board has been solved
+{
+    for (int i = 1; i <= BoardSize; i++)
+    {
+        for (int j = 1; j <= BoardSize; j++)
+        {
+            if (isBlank(i, j) == true)    // Checks if each cell is filled
+            {
+                cout << "The board has not been solved." << endl;
+                return false;
+            }
+        }
+    }
+    cout << "The board has been solved!" << endl;
+    return true;
+}
+
 int main()
 {
    ifstream fin;
@@ -367,4 +386,5 @@ int main()
 	   b1.print();
       
    }
+   b1.IsSolved();
 }
