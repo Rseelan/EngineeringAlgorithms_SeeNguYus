@@ -1,4 +1,3 @@
-
 // Declarations and functions for project #4
 
 #include <iostream>
@@ -7,6 +6,7 @@
 #include "d_except.h"
 #include <list>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -29,16 +29,20 @@ class board
 // Stores the entire Sudoku board
 {
    public:
-      board(int);
+      board(int sqSize);
       void clear();
       void initialize(ifstream &fin);
       void print();
-      bool isBlank(int, int);
-      ValueType getCell(int, int);
-      bool isPresentInCol(int col, int num);
-      bool isPresentInRow(int row, int num);
-      bool isPresentInBox(int boxStartRow, int boxStartCol, int num);
+      bool isBlank(int i, int j);
+      int getCell(int i, int j);
+      int ColCheck(int ColIndex, int Num);
+      int RowCheck(int RowIndex, int Num);
+      int BoxCheck(int RowStartIndex, int ColStartIndex, int Num);
+      void initializeConflicts();
       void updateConflicts();
+      void PrintConflicts();
+      void setCell(int i, int j, ValueType input);
+      void clearCell(int i, int j);
       
    private:
 
@@ -46,7 +50,7 @@ class board
       // dimension, i.e., they are each (BoardSize+1) * (BoardSize+1)
 
       matrix<int> value;
-      vector<vector<vector<int>>> conflicts;
+      int Conflicts[BoardSize+1][BoardSize+1][BoardSize+1];
 };
 
 board::board(int sqSize)
@@ -56,14 +60,30 @@ board::board(int sqSize)
    clear();
 }
 
+void board::initializeConflicts(){
+
+   for (int i = 1; i <= BoardSize; i++){
+         for (int j = 1; j <= BoardSize; j++){
+            for (int k = 1; k <= BoardSize; k++){
+
+               Conflicts[i][j][k] = 0;
+            }
+      }
+
+   }
+}
+
 void board::clear()
 // Mark all possible values as legal for each board entry
 {
-   for (int i = 1; i <= BoardSize; i++)
+   for (int i = 1; i <= BoardSize; i++){
       for (int j = 1; j <= BoardSize; j++)
       {
-         value[i][j] = Blank;
+         value[i][j] = 0;
       }
+
+   }
+
 }
 
 void board::initialize(ifstream &fin)
@@ -82,19 +102,30 @@ void board::initialize(ifstream &fin)
 	         if (ch != '.'){
 
                value[i][j] = ch-'0';
+
             }
             //setCell(i,j,ch-'0');   // Convert char to int
             //set conflict vector to 0
-            for (int k = 1; k<= BoardSize; k++){
 
-               conflicts[i][j]
 
-            }
         }
-
    }
-
 }
+
+void board::setCell(int i, int j, ValueType input)
+// Set the value of cell (i,j) to 'input' 
+{
+   value[i][j] = input;
+   updateConflicts();
+}
+
+void board::clearCell(int i, int j)
+// Set value of cell (i,j) to 'Blank'
+{
+   value[i][j] = 0;
+   updateConflicts();
+}
+
 
 int squareNumber(int i, int j)
 // Return the square number of cell i,j (counting from left to right,
@@ -121,61 +152,113 @@ ValueType board::getCell(int i, int j)
 // Returns the value stored in a cell.  Throws an exception
 // if bad values are passed.
 {
-   if (i >= 1 && i <= BoardSize && j >= 1 && j <= BoardSize)
+   if (i >= 1 && i <= BoardSize && j >= 1 && j <= BoardSize){
       return value[i][j];
-   else
+   }
+      
+   else{
+      
       throw rangeError("bad value in getCell");
+
+   }
+      
 }
 
-bool board::isPresentInCol(int col, int num){ //check whether num is present in col or not
-   for (int row = 1; row <= BoardSize; row++){
-      if (value[row][col] == num){
+//check a specific column for conflicts
+int board::ColCheck(int ColIndex, int Num){ 
 
-         return true;
+   for (int RowIndex = 1; RowIndex <= BoardSize; RowIndex++){
+
+      if (value[RowIndex][ColIndex] == Num){
+
+         return 1;
       }     
 
    }
-   return false;
+   return 0;
 }
-bool board::isPresentInRow(int row, int num){ //check whether num is present in row or not
-   for (int col = 1; col <= BoardSize; col++){
-      if (value[row][col] == num){
-         return true;
+
+//check a specific row for conflicts
+int board::RowCheck(int RowIndex, int Num){
+
+   for (int ColIndex = 1; ColIndex <= BoardSize; ColIndex++){
+
+      if (value[RowIndex][ColIndex] == Num){
+
+         return 1;
       }
          
    }
-      
-   return false;
+   return 0;
 }
-bool board::isPresentInBox(int boxStartRow, int boxStartCol, int num){
-//check whether num is present in 3x3 box or not
-   for (int row = 0; row < 3; row++){
-            for (int col = 0; col < 3; col++)
-      {
-         if (value[row+boxStartRow][col+boxStartCol] == num){
-            return true;
 
+//check a specific box for conflicts
+int board::BoxCheck(int RowStartIndex, int ColStartIndex, int Num){
+
+   for (int RowIndex = 0; RowIndex < 3; RowIndex++){
+
+         for (int ColIndex = 0; ColIndex < 3; ColIndex++){
+
+            if (value[RowIndex+RowStartIndex][ColIndex+ColStartIndex] == Num){
+
+               return 1;
+
+            }
          }
       }
-   }
             
-   return false;
+   return 0;
 }
 
+//update the conflict matrix
 void board::updateConflicts(){
 
+   int x = 0;
+   int y = 0;
+   int startRow = 0;
+   int startCol = 0;
+
    for (int i = 1; i<= BoardSize; i++){
+
       for (int j = 1; j<=BoardSize; j++){
 
-            //check row
+            for (int k = 1; k<= BoardSize; k++){ //conflicts iterator
 
-            //check column
+               //check row
+               Conflicts[i][j][k] += RowCheck(i, k);
+
+               //check column
+               Conflicts[i][j][k] += ColCheck(j, k);
+
+               //check box
+               if (1<=i && i <=3){
+                  y = 1;
+
+               }
+               else if(4<=i && i <=6){
+                  y = 4;
+               }
+               else if(7<=i && i <=9){
+                  y = 7;
+               }
+
+               if (1<=j && j <=3){
+                  x = 1;
+
+               }
+               else if(4<=j && j<=6){
+                  x = 4;
+               }
+               else if(7<=j && j<=9){
+                  x = 7;
+               }
+               Conflicts[i][j][k] += BoxCheck(x,y,k);
+
+            }   
 
       }
 
    }
-
-
 
 }
 
@@ -188,7 +271,7 @@ bool board::isBlank(int i, int j)
    }
       
 
-   return (getCell(i,j) == Blank);
+   return (getCell(i,j) == 0);
 }
 
 void board::print()
@@ -224,6 +307,29 @@ void board::print()
    cout << endl;
 }
 
+void board::PrintConflicts(){
+
+      for (int i = 1; i <= BoardSize; i++){
+
+         for (int j = 1; j <= BoardSize; j++){
+
+            for (int k = 1; k <= BoardSize; k++){
+
+               // format of this function's messages:
+               // # conflicts, i, j, k
+               // ie: 3 i, j ,k: 1, 5, 2 means 3 conflicts for digit 2 in cell 1,5
+
+               cout<<Conflicts[i][j][k]<<" ";
+               cout<<"i, j, k: "<<i<<", "<<j<<", "<<k<<endl;
+
+            }
+
+         }
+
+      }
+
+}
+
 int main()
 {
    ifstream fin;
@@ -241,17 +347,24 @@ int main()
    else
    {
       board b1(SquareSize);
+      b1.initializeConflicts();
 
       while (fin && fin.peek() != 'Z')
       {
          b1.initialize(fin);
-         b1.print();
-         //b1.printConflicts();
       }
+
+      b1.updateConflicts();
+      b1.PrintConflicts();
+      b1.print();
+
+      b1.setCell(1,1,9);
+      b1.PrintConflicts();
+	   b1.print();
+
+      b1.clearCell(1,1);
+      b1.PrintConflicts();
+	   b1.print();
+      
    }
-   // catch  (indexRangeError &ex)
-   // {
-   //    cout << ex.what() << endl;
-   //    exit(1);
-   // }
 }
