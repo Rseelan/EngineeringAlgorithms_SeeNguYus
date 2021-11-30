@@ -53,6 +53,7 @@ class board
       void backtrack();
 
       bool IsSolved();
+      void solve();
       
    private:
 
@@ -281,6 +282,8 @@ void board::updateConflicts()
    }
 }
 
+
+
 bool board::isBlank(int i, int j)
 // Returns true if cell i,j is blank, and false otherwise.
 {
@@ -343,6 +346,51 @@ void board::PrintConflicts()
          }
       }
    }
+}
+
+void board::solve(){
+   int num = 0;
+   int cellVal;
+   //go to first blank cell
+   for (int i = 1; i <= BoardSize; i++)
+      {
+         for (int j = 1; j <= BoardSize; j++){
+
+            if(getCell(i,j) == 0)
+            {
+                  for (int k = 1; k <= BoardSize; k++)
+                  {
+
+                     num++; 
+                     if (Conflicts[i][j][k] == 0)
+                     {
+                        
+                        setCell(i,j, k);
+                        cout<<"good"<<endl;
+                        
+
+                        updateConflicts();
+                        
+                     }
+
+                     else{
+                        num++;
+
+                     }
+
+                  }
+
+                  if(num == BoardSize){
+
+                     cout<<"fuck"<<endl;
+                  }
+
+
+            }
+         }
+      }
+
+   
 }
 
 void board::resetFromConflicts()
@@ -430,18 +478,22 @@ int main()
 
       b1.initializeConflicts();
       b1.updateConflicts();
-      b1.PrintConflicts();
+      //b1.PrintConflicts();
+  
 
-      // cout << "   -------------------------    " << endl;
-      // cout << "-----------Original------------" << endl;
-      // cout << "   -------------------------    " << endl;
-	   // b1.print();
 
-      // cout << "   -------------------------    " << endl;
-      // cout << "-------------Changed-------------" << endl;
-      // cout << "   -------------------------    " << endl;
-      // b1.setCell(1,2,9);
-	   // b1.print();
+      cout << "   -------------------------    " << endl;
+      cout << "-----------Original------------" << endl;
+      cout << "   -------------------------    " << endl;
+	   b1.print();
+
+      b1.solve();
+
+      cout << "   -------------------------    " << endl;
+      cout << "-------------Changed-------------" << endl;
+      cout << "   -------------------------    " << endl;
+      //b1.setCell(1,2,9);
+	   b1.print();
 
       /****************************************************************************************************
        * Right now. backtracking relies on the Conflicts being correct when you call resetFromConflicts()
