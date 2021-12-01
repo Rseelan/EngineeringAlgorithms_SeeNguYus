@@ -51,6 +51,7 @@ class board
 
       bool IsSolved();
       void solve();
+      void findCell();
       
    private:
 
@@ -61,6 +62,9 @@ class board
 
       matrix<int> value;
       int Conflicts[BoardSize+1][BoardSize+1][BoardSize+1];
+      
+      int currentRow;
+      int currentCol;
 };
 
 board::board(int sqSize)
@@ -371,6 +375,31 @@ bool board::IsSolved()
     }
     cout << "The board has been solved after " << numCalls << "recursive calls!" << endl;
     return true;
+}
+
+void board::findCell()
+{
+    int max;
+    for (int i = 1; i <= BoardSize; i++)
+    {
+        for (int j = 1; j <= BoardSize; j++)
+        {
+            if (isBlank(i, j))
+            {
+                int sum = 0;
+                for (int k = 1; k <= BoardSize; k++)
+                {
+                    sum += Conflicts[i][j][k];
+                }
+                if (sum > max)
+                {
+                    max = sum;
+                    currentRow = i;
+                    currentCol = j;
+                }
+            }
+        }
+    }
 }
 
 void board::solve()
