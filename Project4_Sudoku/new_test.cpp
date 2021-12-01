@@ -43,14 +43,11 @@ class board
       int BoxCheck(int RowStartIndex, int ColStartIndex, int Num);
 
       void initializeConflicts();
-      //void copyConflicts();
       void updateConflicts();
       void PrintConflicts();
 
       void setCell(int i, int j, ValueType input);
       void clearCell(int i, int j);
-
-      //void resetFromConflicts();
 
       bool IsSolved();
       void solve();
@@ -64,7 +61,6 @@ class board
 
       matrix<int> value;
       int Conflicts[BoardSize+1][BoardSize+1][BoardSize+1];
-      //int ConflictsCopy[BoardSize+1][BoardSize+1][BoardSize+1];
 };
 
 board::board(int sqSize)
@@ -214,32 +210,11 @@ int board::BoxCheck(int RowStartIndex, int ColStartIndex, int Num)
    return 0;
 }
 
-//copy the conflicts matrix
-/*
-void board::copyConflicts()
-{
-   for (int i = 1; i <= BoardSize; i++)
-   {
-      for (int j = 1; j <= BoardSize; j++)
-      {
-         for (int k = 1; k <= BoardSize; k++)
-         {
-            ConflictsCopy[i][j][k] = Conflicts[i][j][k];
-         }
-      }
-   }
-}
-*/
-
 //update the conflict matrix
 void board::updateConflicts()
 {
    int x = 0;
    int y = 0;
-   //int startRow = 0;
-   //int startCol = 0;
-
-   //copyConflicts();
    initializeConflicts();
 
    for (int i = 1; i<= BoardSize; i++)
@@ -379,44 +354,6 @@ void board::PrintConflicts()
       }
    }
 }
-
-
-//void board::resetFromConflicts()
-// clears the board and sets cells based on previous conflicts. Will only set a 
-// cell that has a 0 for 1 digit of k, and none else, because those are the
-// cells that were already filled in.
-/*
-{
-   int numLegal = 0;
-   int cellVal;
-
-   //clear();
-
-   for (int i = 1; i <= BoardSize; i++)
-   {
-      for (int j = 1; j <= BoardSize; j++)
-      {
-         for (int k = 1; k <= BoardSize; k++)
-         {
-            if (ConflictsCopy[i][j][k] == 0)
-            {
-               numLegal++; // if numLegal > 1, more than 1 legal digits in i, j
-               cellVal = k;
-            }
-         }
-         if (numLegal == 1)
-         {
-            setCell(i, j, cellVal);
-         }
-         else
-         {
-            clearCell(i, j);
-         }
-         numLegal = 0; // reset counter
-      }
-   }
-}
-*/
 
 bool board::IsSolved()
 // Returns true if the entire board has been solved
