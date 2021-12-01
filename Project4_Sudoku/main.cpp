@@ -88,7 +88,7 @@ board::board(int sqSize)
 
 void board::findCell()
 {
-    int max;
+    int max = 0;
     for (int i = 1; i <= BoardSize; i++)
     {
         for (int j = 1; j <= BoardSize; j++)
