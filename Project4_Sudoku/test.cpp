@@ -43,6 +43,7 @@ class board
       int BoxCheck(int RowStartIndex, int ColStartIndex, int Num);
 
       void initializeConflicts();
+      void copyConflicts();
       void updateConflicts();
       void PrintConflicts();
 
@@ -60,8 +61,11 @@ class board
       // The following matrices go from 1 to BoardSize in each
       // dimension, i.e., they are each (BoardSize+1) * (BoardSize+1)
 
+      int numCalls = 0;
+
       matrix<int> value;
       int Conflicts[BoardSize+1][BoardSize+1][BoardSize+1];
+      int ConflictsCopy[BoardSize+1][BoardSize+1][BoardSize+1];
 };
 
 board::board(int sqSize)
@@ -125,7 +129,7 @@ void board::setCell(int i, int j, ValueType input)
 // Set the value of cell (i,j) to 'input' 
 {
    value[i][j] = input;
-   // updateConflicts();
+   updateConflicts();
    // we'll need to update conflicts manually because doing it here will mess
    // with my sinister plans elsewhere
 }
@@ -134,7 +138,7 @@ void board::clearCell(int i, int j)
 // Set value of cell (i,j) to 'Blank'
 {
    value[i][j] = 0;
-   //updateConflicts(); //for consistancy
+   updateConflicts(); //for consistancy
 }
 
 
@@ -215,6 +219,21 @@ int board::BoxCheck(int RowStartIndex, int ColStartIndex, int Num)
    return 0;
 }
 
+//copy the conflicts matrix
+void board::copyConflicts()
+{
+      for (int i = 1; i <= BoardSize; i++)
+   {
+      for (int j = 1; j <= BoardSize; j++)
+      {
+         for (int k = 1; k <= BoardSize; k++)
+         {
+            ConflictsCopy[i][j][k] = Conflicts[i][j][k];
+         }
+      }
+   }
+}
+
 //update the conflict matrix
 void board::updateConflicts()
 {
@@ -223,6 +242,7 @@ void board::updateConflicts()
    int startRow = 0;
    int startCol = 0;
 
+   copyConflicts();
    initializeConflicts();
 
    for (int i = 1; i<= BoardSize; i++)
@@ -348,53 +368,9 @@ void board::PrintConflicts()
    }
 }
 
-void board::solve(){
-   int num = 0;
-   int cellVal;
-   //go to first blank cell
-   for (int i = 1; i <= BoardSize; i++)
-      {
-         for (int j = 1; j <= BoardSize; j++){
-
-            if(getCell(i,j) == 0)
-            {
-                  for (int k = 1; k <= BoardSize; k++)
-                  {
-
-                     num++; 
-                     if (Conflicts[i][j][k] == 0)
-                     {
-                        
-                        setCell(i,j, k);
-                        cout<<"good"<<endl;
-                        
-
-                        updateConflicts();
-                        
-                     }
-
-                     else{
-                        num++;
-
-                     }
-
-                  }
-
-                  if(num == BoardSize){
-
-                     cout<<"fuck"<<endl;
-                  }
-
-
-            }
-         }
-      }
-
-   
-}
 
 void board::resetFromConflicts()
-// clears the board and sets cells based on their conflicts. Will only set a 
+// clears the board and sets cells based on previous conflicts. Will only set a 
 // cell that has a 0 for 1 digit of k, and none else, because those are the
 // cells that were already filled in.
 {
@@ -409,7 +385,7 @@ void board::resetFromConflicts()
       {
          for (int k = 1; k <= BoardSize; k++)
          {
-            if (Conflicts[i][j][k] == 0)
+            if (ConflictsCopy[i][j][k] == 0)
             {
                numLegal++; // if numLegal > 1, more than 1 legal digits in i, j
                cellVal = k;
@@ -444,7 +420,7 @@ bool board::IsSolved()
         {
             if (isBlank(i, j) == true)    // Checks if each cell is filled
             {
-                cout << "The board has not been solved." << endl;
+                cout << numCalls << endl;
                 return false;
             }
         }
@@ -452,6 +428,53 @@ bool board::IsSolved()
     cout << "The board has been solved!" << endl;
     return true;
 }
+
+void board::solve(){
+   numCalls++;
+
+   if(IsSolved())
+   {
+      print();
+   }
+   else //go to first blank cell
+   {   
+   print();
+      for (int i = 1; i <= BoardSize; i++)
+         {
+            for (int j = 1; j <= BoardSize; j++){
+               
+               // num = 0;
+               if(getCell(i,j) == 0)
+               {
+                     for (int k = 1; k <= BoardSize; k++)
+                     {
+                        if (Conflicts[i][j][k] == 0)
+                        { 
+                           setCell(i, j, k);
+                           //updateConflicts();
+
+                           solve();
+
+                           clearCell(i, j);
+                           //updateConflicts();
+                        }
+                        // else
+                        // {
+                        //    num++;
+                        // }
+
+                     }
+                     // if(num == BoardSize)
+                     // {
+                     //    cout<<"fuck"<<endl;
+                     //    resetFromConflicts();
+                     // }
+               }
+            }
+         }
+   } 
+}
+
 
 int main()
 {
