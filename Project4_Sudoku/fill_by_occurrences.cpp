@@ -443,26 +443,15 @@ void board::solve()
       i = currentRow;
       j = currentCol;
 
-      for (int k = 1; k <= BoardSize; k++)
+      for (int k = 0; k < digits.size(); k++)
       {
-         if (Conflicts[i][j][k] == 0)
+         if (Conflicts[i][j][digits.at(k)] == 0)
          {
-            setCell(i, j, k);
-            //print();
+            setCell(i, j, digits.at(k));
             solve();
             clearCell(i, j);
          }   
       }
-
-      // for (int k = 0; k < digits.size(); k++)
-      // {
-      //    if (Conflicts[i][j][digits.at(k)] == 0)
-      //    {
-      //       setCell(i, j, digits.at(k));
-      //       solve();
-      //       clearCell(i, j);
-      //    }   
-      // }
    }
 }         
       
