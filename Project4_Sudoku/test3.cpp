@@ -136,7 +136,6 @@ void board::clearCell(int i, int j)
 
 void board::findCell()
 {
-   /*
    int max = 0;
    for (int i = 1; i <= BoardSize; i++)
    {
@@ -158,7 +157,7 @@ void board::findCell()
          }
       }
    }
-   */
+  /*
    for (int i = 1; i <= BoardSize; i++)
    {
       for (int j = 1; j <= BoardSize; j++)
@@ -171,6 +170,7 @@ void board::findCell()
          }
       }
    }
+   */
 }
 
 
@@ -262,72 +262,57 @@ void board::updateConflicts()
    {
       for (int j = 1; j<=BoardSize; j++)
       {
-         //if (isBlank(i, j))
-         //{
-            for (int k = 1; k<= BoardSize; k++)
-            //conflicts iterator
-            {
-               //check row
-               Conflicts[i][j][k] += RowCheck(i, k);
-
-               //check column
-               Conflicts[i][j][k] += ColCheck(j, k);
-
-               //check box
-               switch (squareNumber(i, j))
-               {
-                  case 1:
-                     x = y = 1;
-                     break;
-                  case 2:
-                     x = 1;
-                     y = 4;
-                     break;
-                  case 3:
-                     x = 1;
-                     y = 7;
-                     break;
-                  case 4:
-                     x = 4;
-                     y = 1;
-                     break;
-                  case 5:
-                     x = y = 4;
-                     break;
-                  case 6:
-                     x = 4;
-                     y = 7;
-                     break;
-                  case 7:
-                     x = 7;
-                     y = 1;
-                     break;
-                  case 8:
-                     x = 7;
-                     y = 4;
-                     break;
-                  case 9:
-                     x = y = 7;
-                     break;
-                  default:
-                     throw range_error("Invalid Square");
-                     break;
-               }
-               Conflicts[i][j][k] += BoxCheck(x,y,k);
-               // if(x == 1 && y == 4 && k == 1) 
-               //    cout << "(" << i << ", " << j << ") = box #" << squareNumber(i, j) << " | Conflicts: " << Conflicts[i][j][k] << endl;
-            }
-         //}
-         /*else
+         for (int k = 1; k<= BoardSize; k++)
+         //conflicts iterator
          {
-            for (int k = 1; k<= BoardSize; k++)
+            //check row
+            Conflicts[i][j][k] += RowCheck(i, k);
+
+            //check column
+            Conflicts[i][j][k] += ColCheck(j, k);
+
+            //check box
+            switch (squareNumber(i, j))
             {
-               if (k != getCell(i, j))
-               {
-                  Conflicts[i][j][k] = 1;
-               }
+               case 1:
+                  x = y = 1;
+                  break;
+               case 2:
+                  x = 1;
+                  y = 4;
+                  break;
+               case 3:
+                  x = 1;
+                  y = 7;
+                  break;
+               case 4:
+                  x = 4;
+                  y = 1;
+                  break;
+               case 5:
+                  x = y = 4;
+                  break;
+               case 6:
+                  x = 4;
+                  y = 7;
+                  break;
+               case 7:
+                  x = 7;
+                  y = 1;
+                  break;
+               case 8:
+                  x = 7;
+                  y = 4;
+                  break;
+               case 9:
+                  x = y = 7;
+                  break;
+               default:
+                  throw range_error("Invalid Square");
+                  break;
             }
-         }*/  
+            Conflicts[i][j][k] += BoxCheck(x,y,k);
+         } 
       }
    }
 }
@@ -406,8 +391,8 @@ bool board::IsSolved()
         {
             if (isBlank(i, j) == true)    // Checks if each cell is filled
             {
-                cout << "Number of recursive calls: " << numCalls << endl;
-                return false;
+               //cout << "Number of recursive calls: " << numCalls << endl;
+               return false;
             }
         }
     }
@@ -423,7 +408,6 @@ void board::solve()
    if(IsSolved())
    {
       print();
-      cout << "hey \n";
    }
    else //go to first blank cell
    {
@@ -437,7 +421,7 @@ void board::solve()
          if (Conflicts[i][j][k] == 0)
          {
             setCell(i, j, k);
-            //print();
+            print();
             solve();
             clearCell(i, j);
          }   
