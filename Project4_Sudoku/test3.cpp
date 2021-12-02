@@ -418,7 +418,14 @@ bool board::IsSolved()
 void board::solve()
 {
    numCalls++;
-   
+
+   // if(numCalls % 5000 == 0)
+   // {
+   //    print();
+   //    cout << " \n";
+   // }
+
+   int i, j;
    if(IsSolved())
    {
       print();
@@ -426,14 +433,17 @@ void board::solve()
    else //go to first blank cell
    {   
       findCell();
+      i = currentRow;
+      j = currentCol;
+
       for (int k = 1; k <= BoardSize; k++)
       {
-         if (Conflicts[currentRow][currentCol][k] == 0)
+         if (Conflicts[i][j][k] == 0)
          {
-            setCell(currentRow, currentCol, k);
-            print();
+            setCell(i, j, k);
+            //print();
             solve();
-            clearCell(currentRow, currentCol);
+            clearCell(i, j);
          }                 
       }
    }
