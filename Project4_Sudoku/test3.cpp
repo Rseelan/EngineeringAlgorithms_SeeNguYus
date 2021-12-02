@@ -285,7 +285,7 @@ void board::updateConflicts()
                      break;
                   case 3:
                      x = 1;
-                     y = 6;
+                     y = 7;
                      break;
                   case 4:
                      x = 4;
@@ -296,7 +296,7 @@ void board::updateConflicts()
                      break;
                   case 6:
                      x = 4;
-                     y = 6;
+                     y = 7;
                      break;
                   case 7:
                      x = 7;
@@ -418,20 +418,16 @@ bool board::IsSolved()
 void board::solve()
 {
    numCalls++;
-
-   // if(numCalls % 5000 == 0)
-   // {
-   //    print();
-   //    cout << " \n";
-   // }
-
    int i, j;
+
    if(IsSolved())
    {
       print();
+      cout << "hey \n";
    }
    else //go to first blank cell
-   {   
+   {
+      //print();
       findCell();
       i = currentRow;
       j = currentCol;
@@ -444,7 +440,7 @@ void board::solve()
             //print();
             solve();
             clearCell(i, j);
-         }                 
+         }   
       }
    }
 }         
