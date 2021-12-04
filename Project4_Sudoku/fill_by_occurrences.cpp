@@ -460,20 +460,23 @@ void board::solve()
 
 
 int main()
-{
+{   
 	ifstream fin1;
    ifstream fin2;
    ifstream fin3;
    
    // Read the sample grid from the file.
-   string fileName = "sudoku1.txt";
-   string fileName = "sudoku2.txt";
-   string fileName = "sudoku3.txt";
+   string fileName1 = "sudoku1.txt";
+   string fileName2 = "sudoku2.txt";
+   string fileName3 = "sudoku3.txt";
 
-   fin1.open(fileName.c_str());
+   fin1.open(fileName1.c_str());
+   fin2.open(fileName2.c_str());
+   fin3.open(fileName3.c_str());
+
    if (!fin1 || !fin2 || !fin3)
    {
-      cerr << "Cannot open " << fileName << endl;
+      cerr << "Cannot open file(s)" << endl;
       exit(1);
    }
 
@@ -486,6 +489,14 @@ int main()
       while (fin1 && fin1.peek() != 'Z')
       {
          b1.initialize(fin1);
+      }
+      while (fin2 && fin2.peek() != 'Z')
+      {
+         b2.initialize(fin2);
+      }
+      while (fin3 && fin3.peek() != 'Z')
+      {
+         b3.initialize(fin3);
       }
 
       b1.print();
