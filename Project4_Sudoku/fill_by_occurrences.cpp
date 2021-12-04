@@ -498,28 +498,35 @@ int main()
       {
          b3.initialize(fin3);
       }
-	
+
       cout << "Board 1:" << endl;
       b1.print();
       cout << "Board 2:" << endl;
       b2.print();
       cout << "Board 3:" << endl;
       b3.print();
-      cout << "Which board would you like to solve first?" << endl;
-      int response;
-      cin >> response;
+      
+      int exit = 0;
+      while (exit == 0)
+      {
+	      cout << "Which board would you like to solve?" << endl;
+	      int response;
+	      cin >> response;
 
-      if (response == 1)
-      {
-	      b1.solve();
-      }
-      else if (response == 2)
-      {
-	      b2.solve();
-      }
-      else if (response == 3)
-      {
-	      b3.solve();
+	      if (response == 1)
+	      {
+		      b1.solve();
+	      }
+	      else if (response == 2)
+	      {
+		      b2.solve();
+	      }
+	      else if (response == 3)
+	      {
+		      b3.solve();
+	      }
+	      cout << "Would you like to exit? Enter 1 to quit or 0 to solve another board." << endl;
+	      cin >> exit;
       }
    }
 }
