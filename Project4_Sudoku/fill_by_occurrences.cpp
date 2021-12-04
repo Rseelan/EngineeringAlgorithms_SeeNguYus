@@ -23,7 +23,10 @@ const int BoardSize = SquareSize * SquareSize;
 const int MinValue = 1;
 const int MaxValue = 9;
 
-int numSolutions = 0;
+//int numSolutions = 0;
+int totalNumRecursiveCalls = 0;
+int averageNumRecursiveCalls =0;
+int attempts = 0;
 
 class board
 // Stores the entire Sudoku board
@@ -60,7 +63,10 @@ class board
       // dimension, i.e., they are each (BoardSize+1) * (BoardSize+1)
 
       int numCalls = 0;
+      //int totalnumCalls;
       int currentRow, currentCol;
+      int numSolutions = 0;
+      //int averageNumSolutions;
 
       matrix<int> value;
       int Conflicts[BoardSize+1][BoardSize+1][BoardSize+1];
@@ -103,6 +109,8 @@ void board::initialize(ifstream &fin)
 // Read a Sudoku board from the input file.
 {
    char ch;
+
+   numSolutions = 0;
 
    clear();
    
@@ -426,6 +434,8 @@ bool board::IsSolved()
 void board::solve()
 {
    numCalls++;
+   totalNumRecursiveCalls++;
+   string response;
    int i, j;
    vector<ValueType> digits = findValue();
 
@@ -435,7 +445,21 @@ void board::solve()
 
    if(IsSolved())
    {
+       numSolutions++;
+       cout<<"The number of solutions is "<<numSolutions<<endl;
+
       print();
+      cout<<"Would you like to keep looking for solutions? (Y/N)"<<endl;
+
+      cin>>response;
+
+      if (response == "N"){
+
+          cout<<"exit"<<endl;
+          exit(0);
+          cout<<"exit2"<<endl;
+
+      }
    }
    else //go to first blank cell
    {
@@ -461,6 +485,7 @@ void board::solve()
 
 int main()
 {   
+
 	ifstream fin1;
    ifstream fin2;
    ifstream fin3;
@@ -516,17 +541,36 @@ int main()
 	      if (response == 1)
 	      {
 		      b1.solve();
+              attempts++;
+
+              
+
 	      }
 	      else if (response == 2)
 	      {
 		      b2.solve();
+              attempts++;
+              
 	      }
 	      else if (response == 3)
 	      {
 		      b3.solve();
+              attempts++;
 	      }
+
+        
+            
+          cout<<"Total number of recursive calls is "<<totalNumRecursiveCalls<<endl;
+          cout<<"Total number of attempts is "<<attempts<<endl;
 	      cout << "Would you like to exit? Enter 1 to quit or 0 to solve another board." << endl;
 	      cin >> exit;
+
+          if (exit == 1){
+
+              averageNumRecursiveCalls = totalNumRecursiveCalls/attempts;
+
+              cout<<"The average number of recursive calls is "<<averageNumRecursiveCalls<<endl;
+          }
       }
    }
 }
