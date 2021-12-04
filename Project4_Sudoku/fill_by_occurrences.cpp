@@ -62,6 +62,8 @@ class board
       // The following matrices go from 1 to BoardSize in each
       // dimension, i.e., they are each (BoardSize+1) * (BoardSize+1)
 
+	bool done = false;
+	
       int numCalls = 0;
       //int totalnumCalls;
       int currentRow, currentCol;
@@ -454,15 +456,13 @@ void board::solve()
 
       cin>>response;
 
-      if (response == "N"){
-
-          cout<<"exit"<<endl;
-          exit(0);
-          cout<<"exit2"<<endl;
-
+      if (response == "N")
+      {
+	      done = true;
+	      return;
       }
    }
-   else //go to first blank cell
+   else if(!done) //go to first blank cell
    {
       findCell();
       i = currentRow;
@@ -479,9 +479,6 @@ void board::solve()
       }
    }
 }         
-      
-   
-
 
 
 int main()
