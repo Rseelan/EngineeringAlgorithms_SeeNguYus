@@ -144,6 +144,7 @@ void board::clearCell(int i, int j)
 }
 
 void board::findCell()
+// Finds most constrained cell based on values in Conflicts matrix
 {
    int max = 0;
    for (int i = 1; i <= BoardSize; i++)
@@ -155,7 +156,7 @@ void board::findCell()
             int sum = 0;
             for (int k = 1; k <= BoardSize; k++)
             {
-               sum += Conflicts[i][j][k];
+               sum += Conflicts[i][j][k];	// adds all conflicts for each digit in cell to compare cells
             }
             if (sum > max)
             {
@@ -486,7 +487,7 @@ void board::solve()
 int main()
 {   
 
-	ifstream fin1;
+   ifstream fin1;
    ifstream fin2;
    ifstream fin3;
    
@@ -534,43 +535,41 @@ int main()
       int exit = 0;
       while (exit == 0)
       {
-	      cout << "Which board would you like to solve?" << endl;
-	      int response;
-	      cin >> response;
+		cout << "Which board would you like to solve?" << endl;
+		int response;
+		cin >> response;
 
-	      if (response == 1)
-	      {
+		if (response == 1)
+		{
 		      b1.solve();
-              attempts++;
+		      attempts++;
 
-              
-
-	      }
-	      else if (response == 2)
-	      {
+		}
+		else if (response == 2)
+		{
 		      b2.solve();
-              attempts++;
-              
-	      }
-	      else if (response == 3)
-	      {
+		      attempts++;
+
+		}
+		else if (response == 3)
+		{
 		      b3.solve();
-              attempts++;
-	      }
+		      attempts++;
+		}
 
-        
-            
-          cout<<"Total number of recursive calls is "<<totalNumRecursiveCalls<<endl;
-          cout<<"Total number of attempts is "<<attempts<<endl;
-	      cout << "Would you like to exit? Enter 1 to quit or 0 to solve another board." << endl;
-	      cin >> exit;
 
-          if (exit == 1){
+		cout << "Total number of recursive calls is " << totalNumRecursiveCalls << endl;
+		cout << "Total number of attempts is " << attempts << endl;
+		cout << "Would you like to exit? Enter 1 to quit or 0 to solve another board." << endl;
+		cin >> exit;
 
-              averageNumRecursiveCalls = totalNumRecursiveCalls/attempts;
+		if (exit == 1)
+		{
 
-              cout<<"The average number of recursive calls is "<<averageNumRecursiveCalls<<endl;
-          }
+		averageNumRecursiveCalls = totalNumRecursiveCalls/attempts;
+
+		cout << "The average number of recursive calls is " << averageNumRecursiveCalls << endl;
+		}
       }
    }
 }
