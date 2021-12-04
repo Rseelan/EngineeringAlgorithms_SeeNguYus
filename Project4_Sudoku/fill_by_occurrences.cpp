@@ -461,13 +461,17 @@ void board::solve()
 
 int main()
 {
-   ifstream fin;
+	ifstream fin1;
+   ifstream fin2;
+   ifstream fin3;
    
    // Read the sample grid from the file.
    string fileName = "sudoku1.txt";
+   string fileName = "sudoku2.txt";
+   string fileName = "sudoku3.txt";
 
-   fin.open(fileName.c_str());
-   if (!fin)
+   fin1.open(fileName.c_str());
+   if (!fin1 || !fin2 || !fin3)
    {
       cerr << "Cannot open " << fileName << endl;
       exit(1);
@@ -476,14 +480,15 @@ int main()
    else
    {
       board b1(SquareSize);
+      board b2(SquareSize);
+      board b3(SquareSize);
 
-      while (fin && fin.peek() != 'Z')
+      while (fin1 && fin1.peek() != 'Z')
       {
-         b1.initialize(fin);
+         b1.initialize(fin1);
       }
 
       b1.print();
-      //b1.findValue();
 
       b1.solve();
    }
