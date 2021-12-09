@@ -104,17 +104,6 @@ void maze::print(int goalI, int goalJ, int currI, int currJ)
       cout << endl;
    }
    cout << endl;
-
-   //print out map:
-   // for (int i = 0; i <= rows-1; i++)
-   // {
-   //    for (int j = 0; j <= cols-1; j++)
-   //    {
-	//       cout << " " << map[i][j] << " ";	  
-   //    }
-   //    cout << endl;
-   // }
-   // cout << endl;
 }
 
 bool maze::isLegal(int i, int j)
@@ -131,17 +120,14 @@ void maze::mapMazeToGraph(maze &m, graph &g)
 {
    int n = 1;
    bool tmp;
-   for (int i = 0; i < rows; i++)
-      for(int j = 0; j < cols; j++)
-      {  
-         tmp = value[i][j]; 
-         if(tmp) g.addNode(m.getMap(i,j));
-      }
-   
-   // g.addEdge(m.getMap(0,0), m.getMap(1,0), 0);
-   // g.addEdge(m.getMap(1,0), m.getMap(0,0), 0);
+   for(int i = 0; i < rows; i++)
+   for(int j = 0; j < cols; j++)
+   {  
+      tmp = value[i][j]; 
+      if(tmp) g.addNode(m.getMap(i,j));
+   }
 
-   for (int i = 0; i < rows; i++)
+   for(int i = 0; i < rows; i++)
    for(int j = 0; j < cols; j++)
    {
       tmp = value[i][j]; 
@@ -151,25 +137,21 @@ void maze::mapMazeToGraph(maze &m, graph &g)
          {
             tmp = value[i-1][j];
             if(tmp) g.addEdge(m.getMap(i,j), m.getMap(i-1,j), 0);
-            n++;
          }
-         if(i < 6)
+         if(i < rows-1)
          {
             tmp = value[i+1][j];
             if(tmp) g.addEdge(m.getMap(i,j), m.getMap(i+1,j), 0);
-            n++;
          }
          if(j > 0)
          {
             tmp = value[i][j-1];
             if(tmp) g.addEdge(m.getMap(i,j), m.getMap(i,j-1), 0);
-            n++;
          }
-         if(j < 6)
+         if(j < cols-1)
          {
             tmp = value[i][j+1];
             if(tmp) g.addEdge(m.getMap(i,j), m.getMap(i,j+1), 0);
-            n++;
          }
       }
    }
