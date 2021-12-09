@@ -19,6 +19,7 @@ class maze
 
       void setMap(int i, int j, int n);
       int getMap(int i, int j) const;
+	
       void mapMazeToGraph(maze &m, graph &g);
 
    private:
