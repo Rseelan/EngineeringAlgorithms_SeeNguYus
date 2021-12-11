@@ -485,11 +485,11 @@ int main()
          maze m(fin);
 
          //remember to change the destination coordinates
-         m.print(19,19,0,0);
+         m.print(6,9,0,0);
          m.mapMazeToGraph(m, g);
 
          //remember to change the destination coordinates
-         m.findPathRecursive(m, g, 19, 19, 0, 0, moves);
+         m.findPathRecursive(m, g, 6, 9, 0, 0, moves);
 
          cout<<"The non recursive method is used below"<<endl;
          cout<<endl;
