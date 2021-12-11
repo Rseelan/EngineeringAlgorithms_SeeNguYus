@@ -63,13 +63,13 @@ maze::maze(ifstream &fin)
 	      fin >> x;
 	      if (x == 'O')
          {   
-            setMap(i,j,n);
+            setMap(i,j,n);	//set legal node to new id
             n++;
             value[i][j] = true;
          }
 	      else
          {
-            setMap(i,j,-1);
+            setMap(i,j,-1);	//set illegal node to id = -1
 	         value[i][j] = false;
          }
       }
@@ -122,6 +122,7 @@ string maze::edgeDirection(const graph &g, int i, int j)
 // returns what direction you must travel to get from node i to node j
 {
    switch (g.getEdgeWeight(i, j))
+	//we know which direction we went based on that edge's wieght
    {
    case 1:
       return "Move right. \n";
@@ -140,7 +141,7 @@ string maze::edgeDirection(const graph &g, int i, int j)
       break;
    
    default:
-      return "invalid edge. \n";
+      return "Invalid edge in maze::edgeDirection";
       break;
    }
 }
@@ -148,7 +149,6 @@ string maze::edgeDirection(const graph &g, int i, int j)
 void maze::mapMazeToGraph(maze &m, graph &g)
 // Create a graph g that represents the legal moves in the maze m.
 {
-   int n = 1;
    bool tmp;
 
    //create list of nodes from maze map
@@ -169,22 +169,22 @@ void maze::mapMazeToGraph(maze &m, graph &g)
       {
          if(i > 0)
          {
-            tmp = value[i-1][j];
+            tmp = value[i-1][j];	//check node above 
             if(tmp) g.addEdge(m.getMap(i,j), m.getMap(i-1,j), 4);
          }
          if(i < rows-1)
          {
-            tmp = value[i+1][j];
+            tmp = value[i+1][j];	//check node below
             if(tmp) g.addEdge(m.getMap(i,j), m.getMap(i+1,j), 2);
          }
          if(j > 0)
          {
-            tmp = value[i][j-1];
+            tmp = value[i][j-1];	//check left node
             if(tmp) g.addEdge(m.getMap(i,j), m.getMap(i,j-1), 3);
          }
          if(j < cols-1)
          {
-            tmp = value[i][j+1];
+            tmp = value[i][j+1];	//check right node
             if(tmp) g.addEdge(m.getMap(i,j), m.getMap(i,j+1), 1);
          }
       }
@@ -199,7 +199,7 @@ void maze::findPathRecursive(maze &m, graph &g, int goalI, int goalJ, int currI,
    g.visit(currentNode);
 
    if(currentNode == getMap(goalI,goalJ))
-   // if a path is found, print out how to get there
+   // if a path is found, print out how we got there
    {  
       cout << "------------Path found: ------------\n";
       for(int i = 0; i < moves.size(); i++)
@@ -211,7 +211,7 @@ void maze::findPathRecursive(maze &m, graph &g, int goalI, int goalJ, int currI,
    // if there are unvisisted nodes, continue to search for a path by calling
    // function on adjacent nodes:
    {   
-      if(currI > 0) 
+      if(currI > 0)	//check above current node
          if(isLegal(currI-1,currJ) && !g.isVisited(getMap(currI-1,currJ)))
          {
             nextI = currI - 1;
@@ -220,9 +220,9 @@ void maze::findPathRecursive(maze &m, graph &g, int goalI, int goalJ, int currI,
 
             moves.push_back(edgeDirection(g, currentNode, nextNode));
             findPathRecursive(m, g, goalI, goalJ, nextI, nextJ, moves);
-            moves.pop_back();      
+            moves.pop_back();      //backtrack
          }
-      if(currI < rows-1)
+      if(currI < rows-1)	//check below current node
          if(isLegal(currI+1,currJ) && !g.isVisited(getMap(currI+1,currJ)))
          {
             nextI = currI + 1;
@@ -231,9 +231,9 @@ void maze::findPathRecursive(maze &m, graph &g, int goalI, int goalJ, int currI,
 
             moves.push_back(edgeDirection(g, currentNode, nextNode));
             findPathRecursive(m, g, goalI, goalJ, nextI, nextJ, moves);
-            moves.pop_back();
+            moves.pop_back();	//backtrack
          }
-      if(currJ > 0)
+      if(currJ > 0)	//check to the left of current node
          if(isLegal(currI,currJ-1) && !g.isVisited(getMap(currI,currJ-1)))
          {
             nextI = currI;
@@ -242,9 +242,9 @@ void maze::findPathRecursive(maze &m, graph &g, int goalI, int goalJ, int currI,
 
             moves.push_back(edgeDirection(g, currentNode, nextNode));
             findPathRecursive(m, g, goalI, goalJ, nextI, nextJ, moves);
-            moves.pop_back();
+            moves.pop_back();	//backtrack
          } 
-      if(currJ < cols-1) 
+      if(currJ < cols-1)	//check to the right of current node
          if(isLegal(currI,currJ+1) && !g.isVisited(getMap(currI,currJ+1)))
          {
             nextI = currI;
@@ -253,9 +253,10 @@ void maze::findPathRecursive(maze &m, graph &g, int goalI, int goalJ, int currI,
 
             moves.push_back(edgeDirection(g, currentNode, nextNode));
             findPathRecursive(m, g, goalI, goalJ, nextI, nextJ, moves);
-            moves.pop_back();
+            moves.pop_back();	//backtrack
          }
    }
+   //this ends up getting printed a lot of times, but it does the job
    if(g.allNodesVisited()) 
       cout << "No more possible paths \n";
 }
@@ -278,7 +279,7 @@ int main()
    try
    {
       graph g;
-      vector<string> moves;
+      vector<string> moves;	//stores the steps taken to the destination
 
       while (fin && fin.peek() != 'Z')
       {
@@ -287,9 +288,6 @@ int main()
          m.mapMazeToGraph(m, g);
          m.findPathRecursive(m, g, 6, 9, 0, 0, moves);
       }
-
-      // g.printNodes();
-      // g.printEdges();
    } 
    catch (indexRangeError &ex) 
    { 
