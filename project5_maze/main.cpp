@@ -494,9 +494,10 @@ int main()
          cout<<"The non recursive method is used below"<<endl;
          cout<<endl;
 
+	 //solve the maze without recursion
          m.DFS_stack_solve(g);
          cout<<endl;
-
+	 
          m.markEdges(g);
          cout<<endl;
 
