@@ -207,7 +207,7 @@ void maze::findPathRecursive(maze &m, graph &g, int goalI, int goalJ, int currI,
       cout << "------------------------------------\n";
       cout << endl;
    }
-   else if(!g.allNodesVisited())
+   else 
    // if there are unvisisted nodes, continue to search for a path by calling
    // function on adjacent nodes:
    {   
@@ -286,7 +286,8 @@ int main()
          maze m(fin);
          m.print(6,9,0,0);
          m.mapMazeToGraph(m, g);
-         m.findPathRecursive(m, g, 6, 9, 0, 0, moves);
+	 //need to change destination parameters for different graphs!!!!!!!
+         m.findPathRecursive(m, g, 19, 19, 0, 0, moves);
       }
    } 
    catch (indexRangeError &ex) 
